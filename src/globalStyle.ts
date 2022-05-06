@@ -1,4 +1,7 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
+import SFPro from "./assets/fonts/SF-Pro-Display-Regular.otf";
+import SFProBold from "./assets/fonts/SF-Pro-Display-Bold.otf";
+import SFProBlack from "./assets/fonts/SF-Pro-Display-Black.otf";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -45,11 +48,32 @@ table {
 	border-spacing: 0;
 }
 
+@font-face {
+	font-family: "SF-Pro";
+	src: url(${SFProBlack}) format('opentype');
+	font-weight: black;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "SF-Pro";
+	src: url(${SFPro}) format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "SF-Pro";
+	src: url(${SFProBold}) format('opentype');
+	font-weight: bold;
+	font-style: normal;
+}
+
 
 html, body {
 	height: 100%;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "SF-Pro", sans-serif;
 }
-`
+
+`;
 
 export default GlobalStyle;

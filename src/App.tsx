@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
-import * as S from "./styled"
-import { Header, Chat } from './components'
+import React, { useState, useEffect } from "react";
+import { io, Socket } from "socket.io-client";
+import * as S from "./styled";
+import { Header, Chat } from "./components";
 
 export interface Message {
-  text: string,
-  timeStamp: Date,
-  owner: boolean
+  text: string;
+  timeStamp: Date;
+  owner: boolean;
+  type: string;
 }
 
 function App(): JSX.Element {
-
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState<Array<Message>>([]);
-  const [chatMessage, setChatMessage] = useState<Array<Message>>([])
+  const [chatMessage, setChatMessage] = useState<Array<Message>>([]);
 
   useEffect(() => {
-    const newSocket: Socket = io("http://localhost:5000")
+    const newSocket: Socket = io("http://localhost:5000");
     setSocket(newSocket);
     newSocket.on("connection", (data: Message) => {
-      setMessage(prev => [...prev, data])
-    })
+      setMessage((prev) => [...prev, data]);
+    });
     newSocket.on("disconnection", (data: Message) => {
-      setMessage(prev => [...prev, data])
-    })
+      setMessage((prev) => [...prev, data]);
+    });
     newSocket.on("chat message", (data: Message) => {
-      console.log(data)
-      setMessage(prev => [...prev, data])
-    })
+      console.log(data);
+      setMessage((prev) => [...prev, data]);
+    });
 
     return () => {
-      newSocket.close()
-    }
-  }, [setSocket])
+      newSocket.close();
+    };
+  }, [setSocket]);
 
   return (
     <S.App>
-        <Header/>
-        <Chat message={message} socket={socket!}/>
+      <Header />
+      <Chat message={message} socket={socket!} />
     </S.App>
   );
 }

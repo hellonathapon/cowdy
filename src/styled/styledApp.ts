@@ -1,23 +1,48 @@
 import styled from "styled-components";
 
 export const App = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: hidden;
-`
+  max-width: 1300px;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: 300px 1fr 100px;
+  grid-template-rows: 70px 1fr;
+  min-height: 100vh;
+  overflow: hidden;
+
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    flex-direction: row;
+  }
+`;
 
 export const Header = styled.div`
-    border: 2px solid teal;
-    height: 70px;
-    min-height: 70px;
-`
+  grid-column: 1 / span 3;
+  display: none;
+
+  // Desktop breakpoint
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    grid-column: 1 / 2;
+    grid-row: 1 / span 2;
+    display: block;
+    border-right: ${({ theme }) => theme.borders.border1};
+  }
+`;
 
 export const Chat = styled.div`
-    height: calc(100% - 70px);
-    flex: 1;
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
 
-    display: flex;
-    flex-direction: column;
-`
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  border-right: ${({ theme }) => theme.borders.border1};
+
+  // Desktop breakpoint
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    grid-column: 2 / span 3;
+    grid-row: 1 / span 2;
+  }
+`;
