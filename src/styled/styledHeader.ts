@@ -33,7 +33,8 @@ export const User = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        background: pink;
+        background: #f7f9f9;
+        border: ${({ theme }) => theme.borders.border1};
         border-radius: 50%;
         img {
           width: 100%;
