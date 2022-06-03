@@ -1,8 +1,11 @@
 import React from "react";
 import Avartar from "../../assets/Avatars-memoji/png/Avatar-9.png";
 import * as S from "../../styled";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 function User(): JSX.Element {
+  const user = useSelector((state: RootState) => state.user);
   return (
     <S.User>
       <div>
@@ -12,8 +15,8 @@ function User(): JSX.Element {
       </div>
 
       <article>
-        <h1>Nathapon B. Christian</h1>
-        <p>Web/Mobile Developer</p>
+        <h1>{user.username}</h1>
+        <p>{user.role}</p>
       </article>
     </S.User>
   );

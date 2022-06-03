@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 import * as S from "./styled";
 import { Header, Chat } from "./components";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Login, Home } from "./pages";
+import { Login, Register, Home } from "./pages";
 
 export interface Message {
   text: string;
@@ -17,6 +17,7 @@ function App(): JSX.Element {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </Router>
