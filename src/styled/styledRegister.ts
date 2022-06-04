@@ -8,7 +8,7 @@ export const regContainer = styled.div`
    ** and margin auto child element  
    */
   display: flex;
-  background: #ddeefc;
+  background: #eeeeee;
 `;
 
 export const regWrapper = styled.div`
@@ -22,6 +22,12 @@ export const regWrapper = styled.div`
 
   article {
     padding: 1rem 2rem;
+    h1 {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0.7rem;
+    }
   }
 `;
 

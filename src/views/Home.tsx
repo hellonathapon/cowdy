@@ -3,11 +3,14 @@ import { io, Socket } from "socket.io-client";
 import * as S from "../styled";
 import Header from "../components/Header";
 import Chat from "../components/Chat";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 export interface IMessage {
   text: string;
   timeStamp: Date;
   owner: boolean;
+  ownerName: string;
   type: string;
 }
 
@@ -16,8 +19,16 @@ function Home() {
   const [message, setMessage] = useState<Array<IMessage>>([]);
   const [chatMessage, setChatMessage] = useState<Array<IMessage>>([]);
 
+  const user = useSelector((state: RootState) => state.user);
+
   useEffect(() => {
-    const newSocket: Socket = io("http://localhost:5000");
+    /**
+     * * Send insensitive data like username to simply broadcast
+     * * to other users of new connection.
+     */
+    const newSocket: Socket = io(
+      "http://localhost:5000" + `?user=${user.username}`
+    );
     setSocket(newSocket);
     newSocket.on("connection", (data: IMessage) => {
       setMessage((prev) => [...prev, data]);

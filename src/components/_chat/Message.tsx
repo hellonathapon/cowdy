@@ -12,9 +12,10 @@ function Message(
 ): JSX.Element {
   return (
     <S.Message ref={ref} owner={message.owner}>
-      <figure>
-        <span></span>
-      </figure>
+      <div>
+        <small>{message.ownerName}</small>
+        <figure></figure>
+      </div>
       <article>
         <p>{message.text}</p>
       </article>

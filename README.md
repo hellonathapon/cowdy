@@ -7,4 +7,6 @@ This project is designed to be the user interface to my [web socket](https://git
 Features & Process
 
 - [x] Restrict chat route for registered user
-- [ ] Style Chat UI to covering every potential functionalities
+- [x] Identify and broadcast registered user on new connection
+- [ ] Style each message part in chatarea
+- [ ] Let's user choose an avatar

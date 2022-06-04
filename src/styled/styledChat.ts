@@ -133,20 +133,32 @@ export const Message = styled.div<MessageProps>`
   margin-left: ${({ owner }) => (owner ? "auto" : 0)};
   margin-right: ${({ owner }) => (owner ? 0 : "auto")};
 
-  figure {
-    height: 100%;
-    min-height: 50px;
-    width: 50px;
-    min-width: 50px;
-    max-height: 50px;
-    background: gray;
-    border-radius: 50%;
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-    span {
-      /* height: 100%;
+    small {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    figure {
+      height: 100%;
+      min-height: 50px;
+      width: 50px;
+      min-width: 50px;
+      max-height: 50px;
+      background: gray;
+      border-radius: 50%;
+
+      span {
+        /* height: 100%;
             width: 100%;
             background: teal;
             border-radius: 50%; */
+      }
     }
   }
   article {
