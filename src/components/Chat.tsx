@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import * as S from "../styled";
-import { Message as MessageType } from "../App";
+import { IMessage } from "../views/Home";
 import Message from "./_chat/Message";
 import Notify from "./_chat/Notify";
 import { Socket } from "socket.io-client";
 import { InfoTop, Input } from "./_chat";
 
 interface Props {
-  message: Array<MessageType>;
+  message: Array<IMessage>;
   socket: Socket;
 }
 
@@ -29,7 +29,7 @@ function Chat({ message, socket }: Props): JSX.Element {
     <S.Chat>
       <InfoTop />
       <S.ChatArea>
-        {message.map((item: MessageType, i: number): JSX.Element => {
+        {message.map((item: IMessage, i: number): JSX.Element => {
           return item.type === "message" ? (
             <Message ref={el} message={item} key={i} />
           ) : (

@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { io, Socket } from "socket.io-client";
-import * as S from "./styled";
-import { Header, Chat } from "./components";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Login, Register, Home } from "./pages";
-
-export interface Message {
-  text: string;
-  timeStamp: Date;
-  owner: boolean;
-  type: string;
-}
+import { Login, Register, Home, RouteGuard } from "./views";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
 function App(): JSX.Element {
+  const user = useSelector((state: RootState) => state.user);
+
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<RouteGuard isAuth={user} />}>
+          <Route path="" element={<Home />} />
+        </Route>
       </Routes>
     </Router>
   );

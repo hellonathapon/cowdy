@@ -28,6 +28,8 @@ export const User = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 0.5rem 0;
+
       figure {
         width: 60px;
         display: flex;
@@ -36,6 +38,7 @@ export const User = styled.div`
         background: #f7f9f9;
         border: ${({ theme }) => theme.borders.border1};
         border-radius: 50%;
+
         img {
           width: 100%;
         }
@@ -48,12 +51,18 @@ export const User = styled.div`
       justify-content: center;
       padding-left: 10px;
       height: 70px;
+      padding: 1rem 0.5rem;
       h1 {
         font-weight: bold;
+        font-size: 25px;
+        margin-bottom: 3.5px;
       }
       p {
-        font-size: 13px;
-        margin-top: 3.5px;
+        font-size: 17px;
+        margin-bottom: 7px;
+      }
+      small {
+        font-size: 12px;
       }
     }
   }

@@ -10,6 +10,10 @@ function Register(): JSX.Element {
    * * initial state based on its <type> should be initialized.
    */
   const [newUser, setNewUser] = useState<IUser>({
+    /**
+     * * setNewUser isn't able to set ID here and therefore leave it null to store.
+     */
+    ID: null,
     username: null,
     role: null,
   });

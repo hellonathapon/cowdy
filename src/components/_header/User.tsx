@@ -17,6 +17,7 @@ function User(): JSX.Element {
       <article>
         <h1>{user.username}</h1>
         <p>{user.role}</p>
+        <small>ID: {user.ID}</small>
       </article>
     </S.User>
   );
