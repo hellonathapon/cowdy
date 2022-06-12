@@ -8,12 +8,6 @@ import { RootState } from "../app/store";
 import { added, joined, leaved } from "../features/people/peopleSlice";
 import { IUser } from "../features/user/userSlice";
 
-/**
- * ! The reason why i initialize it here and not with React Context approach
- * ! 1. User should be able to establish the connection on home not register page so client could send credentials to broadcast the connection.
- * ! 2. Store Socket object in a file making it establish the connection over and over again.
- */
-
 // string literal union type
 type MessageType = "message" | "notify";
 
@@ -26,13 +20,6 @@ export interface IMessage {
   timeStamp: Date;
   people?: object;
 }
-
-// interface IConnection {
-//   type: string;
-//   text: string | null;
-//   people: object | null;
-//   timeStamp: Date;
-// }
 
 interface IUsers {
   timeStamp: Date;

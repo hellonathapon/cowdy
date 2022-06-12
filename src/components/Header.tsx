@@ -13,7 +13,8 @@ function Header(): JSX.Element {
     <S.Header>
       <S.NavWrap>
         <User user={user} isOwner={true} />
-        <br />
+
+        {/* list of people */}
         {people.length
           ? people.map((person) => (
               <div key={person.clientID}>

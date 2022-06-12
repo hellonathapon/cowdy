@@ -12,13 +12,18 @@ function Message(
 ): JSX.Element {
   return (
     <S.Message ref={ref} owner={message.isOwner}>
+      {!message.isOwner ? (
+        <section>
+          <small>{message.owner}</small>
+        </section>
+      ) : null}
       <div>
-        <small>{message.owner}</small>
-        <figure></figure>
-      </div>
-      <article>
+        {!message.isOwner ? <figure></figure> : null}
         <p>{message.text}</p>
-      </article>
+      </div>
+      {/* <article>
+        <p>{message.text}</p>
+      </article> */}
     </S.Message>
   );
 }

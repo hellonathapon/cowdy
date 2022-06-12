@@ -19,9 +19,15 @@ function User({ user, isOwner }: Props): JSX.Element {
 
       <article>
         <h1>{user.username}</h1>
-        <p>{user.role}</p>
-        <small>ID: {user.clientID}</small>
+        <h4>{user.role}</h4>
+        {isOwner ? <p>ID: {user.clientID}</p> : null}
       </article>
+
+      {!isOwner ? (
+        <section>
+          <small></small>
+        </section>
+      ) : null}
     </S.User>
   );
 }

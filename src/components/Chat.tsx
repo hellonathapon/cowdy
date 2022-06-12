@@ -21,14 +21,6 @@ function Chat({ message, socket }: Props): JSX.Element {
     el.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // useEffect(() => {
-  //   // Join room Global
-  //   socket.on("global", (data) => {
-  //     console.log(data);
-  //     // setMessage((prev) => [...prev, data]);
-  //   });
-  // }, [socket]);
-
   useEffect(() => {
     scrollToBottom();
   }, [message]);

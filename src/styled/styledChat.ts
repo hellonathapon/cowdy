@@ -21,6 +21,10 @@ export const InfoTitle = styled.div`
     h1 {
       font-size: 20px;
       font-weight: bold;
+      color: ${({ theme }) => theme.cols.title};
+    }
+    p {
+      color: ${({ theme }) => theme.cols.subtitle};
     }
   }
 `;
@@ -29,6 +33,9 @@ export const InfoIcons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  a {
+    color: #000000;
+  }
   div {
     width: 70px;
     height: 100%;
@@ -67,6 +74,7 @@ export const Input = styled.div`
   height: 80px;
   min-height: 80px;
   border-top: ${({ theme }) => theme.borders.border1};
+  box-shadow: ${({ theme }) => theme.shadows.shadow2};
 
   form {
     display: flex;
@@ -123,8 +131,8 @@ export const Input = styled.div`
 `;
 
 export const Message = styled.div<MessageProps>`
-  display: flex;
-  flex-direction: ${({ owner }) => (owner ? "row-reverse" : "row")};
+  /* display: flex;
+  flex-direction: "column"; */
   /* height: 100%;
     min-height: 50px; */
   padding: 12px 9px;
@@ -133,16 +141,20 @@ export const Message = styled.div<MessageProps>`
   margin-left: ${({ owner }) => (owner ? "auto" : 0)};
   margin-right: ${({ owner }) => (owner ? 0 : "auto")};
 
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-
+  section {
+    display: inline-block;
+    margin-bottom: 5px;
     small {
       font-size: 14px;
       margin-bottom: 5px;
     }
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 
     figure {
       height: 100%;
@@ -152,6 +164,7 @@ export const Message = styled.div<MessageProps>`
       max-height: 50px;
       background: gray;
       border-radius: 50%;
+      margin-right: 10px;
 
       span {
         /* height: 100%;
@@ -160,8 +173,16 @@ export const Message = styled.div<MessageProps>`
             border-radius: 50%; */
       }
     }
+
+    p {
+      background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};
+      color: ${({ owner }) => (owner ? "#FFFFFF" : "#636363")};
+      padding: 12px 9px;
+      border-radius: 12px;
+      line-height: 1.3rem;
+    }
   }
-  article {
+  /* article {
     margin-right: ${({ owner }) => (owner ? "1rem" : 0)};
     margin-left: ${({ owner }) => (owner ? 0 : "1rem")};
     height: 100%;
@@ -176,7 +197,7 @@ export const Message = styled.div<MessageProps>`
       border-radius: 12px;
       line-height: 1.3rem;
     }
-  }
+  } */
 `;
 
 export const Notify = styled.div`
