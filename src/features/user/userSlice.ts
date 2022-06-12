@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 export interface IUser {
-  ID: string | null;
+  clientID: string | null;
   username: string | null;
   role: string | null;
 }
 
 const initialState: IUser = {
-  ID: null,
+  clientID: null,
   username: null,
   role: null,
 };
@@ -20,7 +20,7 @@ const userSlice = createSlice({
     created: (state: IUser, action: PayloadAction<IUser>) => {
       state.username = action.payload.username;
       state.role = action.payload.role;
-      state.ID = uuidv4();
+      state.clientID = uuidv4();
     },
   },
 });

@@ -19,7 +19,7 @@ function Input({ socket }: Props): JSX.Element {
     if (inputMessage === "") {
       return;
     } else {
-      socket.emit("chat message", {
+      socket.emit("global", {
         message: inputMessage,
         owner: user.username,
       });

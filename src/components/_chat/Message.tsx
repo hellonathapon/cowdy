@@ -11,9 +11,9 @@ function Message(
   ref: React.Ref<HTMLDivElement> | null
 ): JSX.Element {
   return (
-    <S.Message ref={ref} owner={message.owner}>
+    <S.Message ref={ref} owner={message.isOwner}>
       <div>
-        <small>{message.ownerName}</small>
+        <small>{message.owner}</small>
         <figure></figure>
       </div>
       <article>

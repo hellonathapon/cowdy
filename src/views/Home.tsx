@@ -1,17 +1,43 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as S from "../styled";
 import Header from "../components/Header";
 import Chat from "../components/Chat";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
+import { added, joined, leaved } from "../features/people/peopleSlice";
+import { IUser } from "../features/user/userSlice";
+
+/**
+ * ! The reason why i initialize it here and not with React Context approach
+ * ! 1. User should be able to establish the connection on home not register page so client could send credentials to broadcast the connection.
+ * ! 2. Store Socket object in a file making it establish the connection over and over again.
+ */
+
+// string literal union type
+type MessageType = "message" | "notify";
 
 export interface IMessage {
-  text: string;
+  type: MessageType;
+  text: string | null;
+  isOwner: boolean;
+  owner: string;
+  ownerData?: IUser;
   timeStamp: Date;
-  owner: boolean;
-  ownerName: string;
-  type: string;
+  people?: object;
+}
+
+// interface IConnection {
+//   type: string;
+//   text: string | null;
+//   people: object | null;
+//   timeStamp: Date;
+// }
+
+interface IUsers {
+  timeStamp: Date;
+  sid: string;
+  people: IUser;
 }
 
 function Home() {
@@ -20,24 +46,53 @@ function Home() {
   const [chatMessage, setChatMessage] = useState<Array<IMessage>>([]);
 
   const user = useSelector((state: RootState) => state.user);
+  const { clientID, username, role } = user;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     /**
-     * * Send insensitive data like username to simply broadcast
-     * * to other users of new connection.
+     * * Sending handshake query data to server
      */
-    const newSocket: Socket = io(
-      "http://localhost:5000" + `?user=${user.username}`
-    );
-    setSocket(newSocket);
-    newSocket.on("connection", (data: IMessage) => {
-      setMessage((prev) => [...prev, data]);
+    const newSocket: Socket = io("http://localhost:5000", {
+      query: { clientID, username, role },
     });
+
+    setSocket(newSocket);
+
+    newSocket.on("connection", (data) => {
+      setMessage((prev) => [...prev, data]);
+      /**
+       * * when a new user joined the the room
+       * * his/her data should send to every one in the room
+       */
+      dispatch(joined(data.ownerData));
+    });
+
+    // recieve list of connected users
+    newSocket.on("users", (data: IUsers) => {
+      /**
+       ** filter out this user out of data
+       ** data.sid is string type by accessing data object data[sid] making its type broaded
+       ** `as keyof IUser` telling Typescript data.sid
+       */
+      delete data.people[data.sid as keyof IUser];
+      // add to redux
+      dispatch(added(Object.values(data.people)));
+    });
+
+    // listen on disconnect
     newSocket.on("disconnection", (data: IMessage) => {
       setMessage((prev) => [...prev, data]);
-    });
-    newSocket.on("chat message", (data: IMessage) => {
+
+      const id = data.ownerData?.clientID;
+
       console.log(data);
+      // Update people slice
+      dispatch(leaved(id!));
+    });
+
+    // listen on global room messages
+    newSocket.on("global", (data: IMessage) => {
       setMessage((prev) => [...prev, data]);
     });
 

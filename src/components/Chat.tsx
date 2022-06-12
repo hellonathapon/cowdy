@@ -21,6 +21,14 @@ function Chat({ message, socket }: Props): JSX.Element {
     el.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // useEffect(() => {
+  //   // Join room Global
+  //   socket.on("global", (data) => {
+  //     console.log(data);
+  //     // setMessage((prev) => [...prev, data]);
+  //   });
+  // }, [socket]);
+
   useEffect(() => {
     scrollToBottom();
   }, [message]);
@@ -33,7 +41,7 @@ function Chat({ message, socket }: Props): JSX.Element {
           return item.type === "message" ? (
             <Message ref={el} message={item} key={i} />
           ) : (
-            <Notify text={item.text} timeStamp={item.timeStamp} key={i} />
+            <Notify text={item.text!} timeStamp={item.timeStamp} key={i} />
           );
         })}
       </S.ChatArea>

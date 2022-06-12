@@ -13,7 +13,7 @@ function Register(): JSX.Element {
     /**
      * * setNewUser isn't able to set ID here and therefore leave it null to store.
      */
-    ID: null,
+    clientID: null,
     username: null,
     role: null,
   });

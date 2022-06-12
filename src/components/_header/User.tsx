@@ -1,13 +1,16 @@
 import React from "react";
 import Avartar from "../../assets/Avatars-memoji/png/Avatar-9.png";
 import * as S from "../../styled";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { IUser } from "../../features/user/userSlice";
 
-function User(): JSX.Element {
-  const user = useSelector((state: RootState) => state.user);
+interface Props {
+  user: IUser;
+  isOwner: boolean;
+}
+
+function User({ user, isOwner }: Props): JSX.Element {
   return (
-    <S.User>
+    <S.User isOwner={isOwner}>
       <div>
         <figure>
           <img src={Avartar} alt="User avartar" />
@@ -17,7 +20,7 @@ function User(): JSX.Element {
       <article>
         <h1>{user.username}</h1>
         <p>{user.role}</p>
-        <small>ID: {user.ID}</small>
+        <small>ID: {user.clientID}</small>
       </article>
     </S.User>
   );

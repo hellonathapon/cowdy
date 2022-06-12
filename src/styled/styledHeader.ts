@@ -1,9 +1,16 @@
 import styled from "styled-components";
+interface Props {
+  isOwner: boolean;
+}
 
 export const NavWrap = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
+  overflow: auto;
+  br {
+    color: gray;
+  }
 
   // Desktop breakpoint
   @media ${({ theme }) => theme.breakpoints.desktop} {
@@ -11,11 +18,11 @@ export const NavWrap = styled.div`
   }
 `;
 
-export const User = styled.div`
+export const User = styled.div<Props>`
   // Desktop Breakpoint
   @media ${({ theme }) => theme.breakpoints.desktop} {
     height: 200px;
-    border-bottom: 2px solid #000000;
+    border-bottom: ${({ isOwner }) => (isOwner ? `2px solid #000000` : `none`)};
     flex: 0 auto;
     display: flex;
     flex-direction: row;
