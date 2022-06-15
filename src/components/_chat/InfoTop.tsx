@@ -1,8 +1,14 @@
 import React from "react";
 import * as S from "../../styled";
-import TwitterIcon from "../../assets/svg/twitter.svg";
+import { toggled } from "../../features/mechanic/mechanicSlice";
+import { useDispatch } from "react-redux";
 
 function Header(): JSX.Element {
+  const dispatch = useDispatch();
+  const handleToggle = () => {
+    dispatch(toggled());
+  };
+
   return (
     <S.InfoTop>
       <S.InfoTitle>
@@ -40,17 +46,23 @@ function Header(): JSX.Element {
             </figure>
           </div>
         </a>
-        <div>
-          <figure>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <g>
-                <circle cx="5" cy="12" r="2"></circle>
-                <circle cx="12" cy="12" r="2"></circle>
-                <circle cx="19" cy="12" r="2"></circle>
-              </g>
-            </svg>
-          </figure>
-        </div>
+        <a onClick={handleToggle}>
+          <div>
+            <figure>
+              <svg
+                viewBox="0 0 24 24"
+                focusable="false"
+                className="chakra-icon css-onkibi"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M 3 5 A 1.0001 1.0001 0 1 0 3 7 L 21 7 A 1.0001 1.0001 0 1 0 21 5 L 3 5 z M 3 11 A 1.0001 1.0001 0 1 0 3 13 L 21 13 A 1.0001 1.0001 0 1 0 21 11 L 3 11 z M 3 17 A 1.0001 1.0001 0 1 0 3 19 L 21 19 A 1.0001 1.0001 0 1 0 21 17 L 3 17 z"
+                ></path>
+              </svg>
+            </figure>
+          </div>
+        </a>
       </S.InfoIcons>
     </S.InfoTop>
   );

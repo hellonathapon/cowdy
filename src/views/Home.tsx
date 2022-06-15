@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { added, joined, leaved } from "../features/people/peopleSlice";
 import { IUser } from "../features/user/userSlice";
+import Sidebar from "../components/Sidebar";
 
 // string literal union type
 type MessageType = "message" | "notify";
@@ -94,6 +95,7 @@ function Home() {
   return (
     <S.App>
       <Header />
+      <Sidebar />
       <Chat message={message} socket={socket!} />
     </S.App>
   );

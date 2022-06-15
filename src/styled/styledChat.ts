@@ -33,31 +33,40 @@ export const InfoIcons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   a {
     color: #000000;
-  }
-  div {
-    width: 70px;
-    height: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    figure {
-      background: #ffffff;
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
+
+    div {
+      width: 100%;
+      height: 100%;
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
-      svg {
-        width: 50%;
+      figure {
+        background: #ffffff;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+          width: 50%;
+        }
+        &:hover {
+          cursor: pointer;
+          background: #e7e7e8;
+        }
       }
-      &:hover {
-        cursor: pointer;
-        background: #e7e7e8;
-      }
+    }
+  }
+
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    justify-content: flex-end;
+    a:nth-child(2) {
+      display: none;
     }
   }
 `;
@@ -130,10 +139,6 @@ export const Input = styled.div`
 `;
 
 export const Message = styled.div<MessageProps>`
-  /* display: flex;
-  flex-direction: "column"; */
-  /* height: 100%;
-    min-height: 50px; */
   padding: 12px 9px;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -180,6 +185,18 @@ export const Message = styled.div<MessageProps>`
       display: flex;
       flex-direction: column;
       align-items: ${({ owner }) => (owner ? "flex-start" : "flex-end")};
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-wrap: break-all;
+      word-wrap: break-word;
+      white-space: normal;
+      /* overflow: hidden; */
+      white-space: pre-wrap; /* CSS3 */
+      white-space: -moz-pre-wrap; /* Firefox */
+      white-space: -pre-wrap; /* Opera <7 */
+      white-space: -o-pre-wrap; /* Opera 7 */
+      word-wrap: break-word; /* IE */
+
       small {
         font-size: 12px;
         margin-top: 5px;
@@ -194,31 +211,27 @@ export const Message = styled.div<MessageProps>`
         border-top-left-radius: ${({ owner }) => (owner ? "12px" : "2px")};
         line-height: 1.3rem;
         overflow-wrap: break-word;
+        word-wrap: break-word;
         word-wrap: break-all;
         white-space: normal;
-        /* white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%; */
+
+        //white-space: pre-wrap; /* CSS3 */
+        //white-space: -moz-pre-wrap; /* Firefox */
+        //white-space: -pre-wrap; /* Opera <7 */
+        //white-space: -o-pre-wrap; /* Opera 7 */
+        //word-wrap: break-word; /* IE */
+
+        -ms-word-break: break-all;
+        word-break: break-all;
+
+        /* Non standard for webkit */
+        /* -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto; */
       }
     }
   }
-  /* article {
-    margin-right: ${({ owner }) => (owner ? "1rem" : 0)};
-    margin-left: ${({ owner }) => (owner ? 0 : "1rem")};
-    height: 100%;
-    display: inline-block;
-    color: ${({ owner }) => (owner ? "#FFFFFF" : "#636363")};
-    //margin-left: ${({ owner }) => (owner ? "auto" : 0)};
-    //margin-right: ${({ owner }) => (owner ? 0 : "auto")};
-
-    p {
-      background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};
-      padding: 12px 9px;
-      border-radius: 12px;
-      line-height: 1.3rem;
-    }
-  } */
 `;
 
 export const Notify = styled.div`

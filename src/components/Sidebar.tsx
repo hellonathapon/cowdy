@@ -1,32 +1,32 @@
 import React from "react";
 import * as S from "../styled";
-import Avartar from "../assets/Avatars-memoji/png/Avatar-9.png";
-import { User } from "./_header";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { UserSm } from "../components/_header";
 
-function Header(): JSX.Element {
+function Sidebar() {
+  const isOpen = useSelector((state: RootState) => state.mechanic.sidebar);
   const user = useSelector((state: RootState) => state.user);
   const people = useSelector((state: RootState) => state.people.people);
 
   return (
-    <S.Header>
-      <S.NavWrap>
-        <User user={user} isOwner={true} />
+    <S.SidebarCtn open={isOpen}>
+      <S.SidebarWrap>
+        <UserSm user={user} isOwner={true} />
 
         {/* list of people */}
         {people.length ? (
           people.map((person) => (
             <div key={person.clientID}>
-              <User user={person} isOwner={false} />
+              <UserSm user={person} isOwner={false} />
             </div>
           ))
         ) : (
           <p>No one here</p>
         )}
-      </S.NavWrap>
-    </S.Header>
+      </S.SidebarWrap>
+    </S.SidebarCtn>
   );
 }
 
-export default Header;
+export default Sidebar;

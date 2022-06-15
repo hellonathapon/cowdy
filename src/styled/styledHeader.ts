@@ -121,16 +121,96 @@ export const User = styled.div<Props>`
   }
 `;
 
-export const People = styled.div`
-  width: 150px;
-  min-width: 70px;
+/**
+ * For Mobile screen rendering in Sidebar component specificly.
+ */
+export const UserSm = styled.div<Props>`
+  width: 100%;
   display: flex;
+  flex-direction: ${({ isOwner }) => (isOwner ? "column" : "row")};
   justify-content: center;
   align-items: center;
+  box-shadow: ${({ theme, isOwner }) => (isOwner ? theme.shadows.bt1 : "none")};
+
+  div {
+    display: flex;
+    justify-content: center;
+    figure {
+      width: ${({ isOwner }) => (isOwner ? "80px" : "50px")};
+      height: ${({ isOwner }) => (isOwner ? "80px" : "50px")};
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  article {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: ${({ isOwner }) => (isOwner ? "center" : "flex-start")};
+      padding-left: ${({ isOwner }) => (isOwner ? "15px" : "10px")};
+      padding-right: ${({ isOwner }) => (isOwner ? "15px" : "0")};
+      h1 {
+        font-size: ${({ isOwner }) => (isOwner ? "20px" : "16px")};
+        color: ${({ theme }) => theme.cols.title};
+        font-weight: bold;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+      h4 {
+        font-size: ${({ isOwner }) => (isOwner ? "18px" : "15px")};
+        color: ${({ theme }) => theme.cols.subtitle};
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+      p {
+        font-size: 12px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-wrap: break-all;
+        white-space: normal;
+      }
+    }
+  }
+
+  section {
+    width: 50px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    small {
+      width: 8px;
+      height: 8px;
+      background-color: #42d356;
+      border-radius: 50%;
+    }
+  }
 
   // Desktop Breakpoint
   @media ${({ theme }) => theme.breakpoints.desktop} {
-    width: 100%;
-    flex: 1;
+    display: none;
   }
 `;

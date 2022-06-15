@@ -5,6 +5,8 @@ import Message from "./_chat/Message";
 import Notify from "./_chat/Notify";
 import { Socket } from "socket.io-client";
 import { InfoTop, Input } from "./_chat";
+import { closed } from "../features/mechanic/mechanicSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
   message: Array<IMessage>;
@@ -21,6 +23,14 @@ function Chat({ message, socket }: Props): JSX.Element {
     el.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  /**
+   * On mobile screen if user click chat panel then the sidebar should be closed.
+   */
+  const dispatch = useDispatch();
+  const handleCloseSidebar = () => {
+    dispatch(closed());
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [message]);
@@ -28,7 +38,7 @@ function Chat({ message, socket }: Props): JSX.Element {
   return (
     <S.Chat>
       <InfoTop />
-      <S.ChatArea>
+      <S.ChatArea onClick={handleCloseSidebar}>
         {message.map((item: IMessage, i: number): JSX.Element => {
           return item.type === "message" ? (
             <Message ref={el} message={item} key={i} />
