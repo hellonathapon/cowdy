@@ -34,6 +34,7 @@ export const User = styled.div<Props>`
     border-radius: ${({ isOwner }) => (isOwner ? "none" : "15px")};
     margin-bottom: ${({ isOwner }) => (isOwner ? "1rem" : "0")};
     padding: ${({ isOwner }) => (isOwner ? "0.5rem 0" : "0")};
+    overflow: hidden;
 
     &:hover {
       background-color: ${({ isOwner }) => (isOwner ? "#FFFFFF" : "#e6e6e7")};
@@ -41,15 +42,15 @@ export const User = styled.div<Props>`
     }
 
     div {
-      height: 70px;
-      width: 70px;
+      height: ${({ isOwner }) => (isOwner ? "130px" : "70px")};
+      width: ${({ isOwner }) => (isOwner ? "130px" : "70px")};
       display: flex;
       justify-content: center;
       align-items: center;
 
       figure {
-        width: 60px;
-        height: 60px;
+        width: "60px";
+        height: "60px";
         display: flex;
         justify-content: center;
         align-items: center;
@@ -70,21 +71,37 @@ export const User = styled.div<Props>`
       align-items: ${({ isOwner }) => (isOwner ? "center" : "flex-start")};
       padding-left: 10px;
       height: 70px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
 
       h1 {
         font-weight: bold;
         font-size: ${({ isOwner }) => (isOwner ? "25px" : "16px")};
         color: ${({ theme }) => theme.cols.title};
         margin-bottom: 3.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
       }
       h4 {
         font-size: ${({ isOwner }) => (isOwner ? "18px" : "14px")};
         margin-bottom: 7px;
         color: ${({ theme }) => theme.cols.subtitle};
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
       }
       p {
         font-size: 12px;
         color: ${({ theme }) => theme.cols.subtitle};
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
       }
     }
 

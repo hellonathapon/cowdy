@@ -29,7 +29,7 @@ export const InfoTitle = styled.div`
   }
 `;
 export const InfoIcons = styled.div`
-  width: 200px;
+  width: 120px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -68,7 +68,6 @@ export const ChatArea = styled.div`
   padding: 12px;
   display: flex;
   flex-direction: column;
-  background: #f7f9f9;
 `;
 export const Input = styled.div`
   height: 80px;
@@ -140,6 +139,7 @@ export const Message = styled.div<MessageProps>`
   margin-bottom: 1rem;
   margin-left: ${({ owner }) => (owner ? "auto" : 0)};
   margin-right: ${({ owner }) => (owner ? 0 : "auto")};
+  max-width: 600px;
 
   section {
     display: inline-block;
@@ -155,6 +155,7 @@ export const Message = styled.div<MessageProps>`
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
+    max-width: 500px;
 
     figure {
       height: 100%;
@@ -174,12 +175,32 @@ export const Message = styled.div<MessageProps>`
       }
     }
 
-    p {
-      background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};
-      color: ${({ owner }) => (owner ? "#FFFFFF" : "#636363")};
-      padding: 12px 9px;
-      border-radius: 12px;
-      line-height: 1.3rem;
+    article {
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: ${({ owner }) => (owner ? "flex-start" : "flex-end")};
+      small {
+        font-size: 12px;
+        margin-top: 5px;
+        color: #979292;
+      }
+      p {
+        background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};
+        color: ${({ owner }) => (owner ? "#FFFFFF" : "#636363")};
+        padding: 12px 9px;
+        border-radius: 12px;
+        border-top-right-radius: ${({ owner }) => (owner ? "2px" : "12px")};
+        border-top-left-radius: ${({ owner }) => (owner ? "12px" : "2px")};
+        line-height: 1.3rem;
+        overflow-wrap: break-word;
+        word-wrap: break-all;
+        white-space: normal;
+        /* white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%; */
+      }
     }
   }
   /* article {

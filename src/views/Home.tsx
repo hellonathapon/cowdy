@@ -47,6 +47,8 @@ function Home() {
     setSocket(newSocket);
 
     newSocket.on("connection", (data) => {
+      console.log("hi");
+      console.log(data);
       setMessage((prev) => [...prev, data]);
       /**
        * * when a new user joined the the room
@@ -69,6 +71,7 @@ function Home() {
 
     // listen on disconnect
     newSocket.on("disconnection", (data: IMessage) => {
+      console.log("first");
       setMessage((prev) => [...prev, data]);
 
       const id = data.ownerData?.clientID;

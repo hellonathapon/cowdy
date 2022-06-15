@@ -1,6 +1,7 @@
 import React from "react";
 import { IMessage } from "../../views/Home";
 import * as S from "../../styled";
+import { strToHnM } from "../../utils/formatDateStr";
 
 interface Props {
   message: IMessage;
@@ -19,7 +20,12 @@ function Message(
       ) : null}
       <div>
         {!message.isOwner ? <figure></figure> : null}
-        <p>{message.text}</p>
+        <article>
+          <p>{message.text}</p>
+          <small>
+            {strToHnM(new Date(message.timeStamp).toLocaleTimeString())}
+          </small>
+        </article>
       </div>
       {/* <article>
         <p>{message.text}</p>

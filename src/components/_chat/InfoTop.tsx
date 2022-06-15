@@ -7,7 +7,7 @@ function Header(): JSX.Element {
     <S.InfoTop>
       <S.InfoTitle>
         <article>
-          <h1>Chat</h1>
+          <h1>Global room</h1>
           <p>Everyone is welcome</p>
         </article>
       </S.InfoTitle>
