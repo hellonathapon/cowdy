@@ -18,16 +18,14 @@ export const App = styled.div`
   }
 `;
 
-export const Header = styled.div`
-  /* grid-column: 1 / span 3; */
+export const Sidebar = styled.div`
   display: none;
 
-  // Desktop breakpoint
   @media ${({ theme }) => theme.breakpoints.desktop} {
     grid-column: 1 / 2;
     grid-row: 1 / span 2;
     display: block;
-    border-right: ${({ theme }) => theme.borders.border1};
+    border-right: ${({ theme }) => `1px ${theme.borders.border1}`};
   }
 `;
 
@@ -36,18 +34,17 @@ export const Chat = styled.div`
   grid-row: 1 / span 2;
 
   /**
-   *! min-width for mobile screen is calculated with App grid columns width
-   *! if it < min-width being set here then this is applied otherwise
-   *! the App grid columns width is set as the basesd of min-width.
+   ** MIN WIDTH FOR MOBILE SCREEN IS CALCULATED WITH APP GRID COLUMN WIDTH
+   ** IF IT < MIN WIDTH BEING SET HERE THEN THIS IS APPLIED
+   ** OTHERWISE, THE APP GRID COLUMN WIDTH IS SET AS THE BASED OF MIN WIDTH.
    */
   min-width: 350px;
 
   display: flex;
   flex-direction: column;
   overflow: auto;
-  border-right: ${({ theme }) => theme.borders.border1};
+  border-right: ${({ theme }) => `1px ${theme.borders.border1}`};
 
-  // Desktop breakpoint
   @media ${({ theme }) => theme.breakpoints.desktop} {
     grid-column: 2 / span 3;
     grid-row: 1 / span 2;

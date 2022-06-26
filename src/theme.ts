@@ -13,7 +13,7 @@ export default {
     bt1: "inset 0px -1px 0px #f3f3f4",
   },
   borders: {
-    border1: "1px solid rgb(239, 243, 244)",
+    border1: "solid rgb(239, 243, 244)",
   },
   cols: {
     title: "#242972",

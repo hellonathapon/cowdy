@@ -13,7 +13,10 @@ function UserSm({ user, isOwner }: Props): JSX.Element {
     <S.UserSm isOwner={isOwner}>
       <div>
         <figure>
-          <img src={Avartar} alt="User avartar" />
+          <img
+            src={require(`../../assets/Avatars-memoji/png/Avatar-${user.avatarID}.png`)}
+            alt="User avartar"
+          />
         </figure>
       </div>
 

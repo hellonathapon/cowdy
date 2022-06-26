@@ -2,6 +2,7 @@ import React from "react";
 import * as S from "../../styled";
 import { toggled } from "../../features/mechanic/mechanicSlice";
 import { useDispatch } from "react-redux";
+import LogoIcon from "../../assets/svg/axe.svg";
 
 function Header(): JSX.Element {
   const dispatch = useDispatch();
@@ -10,15 +11,18 @@ function Header(): JSX.Element {
   };
 
   return (
-    <S.InfoTop>
-      <S.InfoTitle>
+    <S.HeadChatCtn>
+      <S.HeadChatTitleWrap>
+        <figure>
+          <img src={LogoIcon} alt="logo" />
+        </figure>
         <article>
-          <h1>Global room</h1>
+          <h1>c/tech</h1>
           <p>Everyone is welcome</p>
         </article>
-      </S.InfoTitle>
+      </S.HeadChatTitleWrap>
 
-      <S.InfoIcons>
+      <S.HeadChatIconsWrap>
         {/* <div>
           <figure>
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -63,8 +67,8 @@ function Header(): JSX.Element {
             </figure>
           </div>
         </a>
-      </S.InfoIcons>
-    </S.InfoTop>
+      </S.HeadChatIconsWrap>
+    </S.HeadChatCtn>
   );
 }
 

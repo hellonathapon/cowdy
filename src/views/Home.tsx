@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as S from "../styled";
-import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import SidebarSM from "../components/SidebarSM";
 import Chat from "../components/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { added, joined, leaved } from "../features/people/peopleSlice";
 import { IUser } from "../features/user/userSlice";
-import Sidebar from "../components/Sidebar";
 
 // string literal union type
 type MessageType = "message" | "notify";
@@ -20,6 +20,7 @@ export interface IMessage {
   ownerData?: IUser;
   timeStamp: Date;
   people?: object;
+  avatarID?: string;
 }
 
 interface IUsers {
@@ -34,55 +35,49 @@ function Home() {
   const [chatMessage, setChatMessage] = useState<Array<IMessage>>([]);
 
   const user = useSelector((state: RootState) => state.user);
-  const { clientID, username, role } = user;
+  const { clientID, username, role, avatarID } = user;
   const dispatch = useDispatch();
 
   useEffect(() => {
     /**
-     * * Sending handshake query data to server
+     * * SENDING INITIAL HANDSHAKE DATA TO THE SERVER
      */
     const newSocket: Socket = io("http://localhost:5000", {
-      query: { clientID, username, role },
+      query: { clientID, username, role, avatarID },
     });
 
     setSocket(newSocket);
 
     newSocket.on("connection", (data) => {
-      console.log("hi");
-      console.log(data);
       setMessage((prev) => [...prev, data]);
       /**
-       * * when a new user joined the the room
-       * * his/her data should send to every one in the room
+       * * FOR OLD USERS
+       * * RECIEVE THE NEW USER DATA E.G. NAME, ROLE FROM THE SERVER
+       * * STORE IN GLOBAL STATE LIKE REDUX.
        */
       dispatch(joined(data.ownerData));
     });
 
-    // recieve list of connected users
     newSocket.on("users", (data: IUsers) => {
       /**
-       ** filter out this user out of data
-       ** data.sid is string type by accessing data object data[sid] making its type broaded
-       ** `as keyof IUser` telling Typescript data.sid
+       * * FOR NEW USER
+       * * RECIEVE THE DATA OF THOSE WHO PREVIOUSLY JOINING THE CHAT
+       * * 1. FILTER RECIEVER DATA OUT OF USERS LIST AND STORE IT TO PEOPLE
        */
       delete data.people[data.sid as keyof IUser];
-      // add to redux
       dispatch(added(Object.values(data.people)));
     });
 
-    // listen on disconnect
     newSocket.on("disconnection", (data: IMessage) => {
       console.log("first");
       setMessage((prev) => [...prev, data]);
 
       const id = data.ownerData?.clientID;
 
-      console.log(data);
-      // Update people slice
       dispatch(leaved(id!));
     });
 
-    // listen on global room messages
+    // LISTEN ON GLOBAL ROOM
     newSocket.on("global", (data: IMessage) => {
       setMessage((prev) => [...prev, data]);
     });
@@ -94,8 +89,8 @@ function Home() {
 
   return (
     <S.App>
-      <Header />
       <Sidebar />
+      <SidebarSM />
       <Chat message={message} socket={socket!} />
     </S.App>
   );

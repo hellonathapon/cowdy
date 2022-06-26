@@ -1,31 +1,29 @@
-import React from "react";
 import * as S from "../styled";
+import { User } from "./_sidebars";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { UserSm } from "../components/_header";
 
-function Sidebar() {
-  const isOpen = useSelector((state: RootState) => state.mechanic.sidebar);
+function Sidebar(): JSX.Element {
   const user = useSelector((state: RootState) => state.user);
   const people = useSelector((state: RootState) => state.people.people);
 
   return (
-    <S.SidebarCtn open={isOpen}>
-      <S.SidebarWrap>
-        <UserSm user={user} isOwner={true} />
+    <S.Sidebar>
+      <S.SidebarCtn>
+        <User user={user} isOwner={true} />
 
         {/* list of people */}
         {people.length ? (
           people.map((person) => (
             <div key={person.clientID}>
-              <UserSm user={person} isOwner={false} />
+              <User user={person} isOwner={false} />
             </div>
           ))
         ) : (
           <p>No one here</p>
         )}
-      </S.SidebarWrap>
-    </S.SidebarCtn>
+      </S.SidebarCtn>
+    </S.Sidebar>
   );
 }
 

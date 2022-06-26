@@ -1,5 +1,6 @@
 export * from "./styledApp";
 export * from "./styledChat";
-export * from "./styledHeader";
+export * from "./styledSidebar";
 export * from "./styledRegister";
 export * from "./styledSidebar";
+export * from "./styledAvatar";

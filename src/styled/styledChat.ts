@@ -4,18 +4,25 @@ interface MessageProps {
   owner: boolean;
 }
 
-export const InfoTop = styled.div`
+export const HeadChatCtn = styled.div`
   height: 70px;
   display: flex;
   flex-direction: row;
-  border-bottom: ${({ theme }) => theme.borders.border1};
+  border-bottom: ${({ theme }) => `1px ${theme.borders.border1}`};
 `;
 
-export const InfoTitle = styled.div`
+export const HeadChatTitleWrap = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  figure {
+    width: 50px;
+    height: 50px;
+    img {
+      width: 100%;
+    }
+  }
   article {
     padding-left: 1rem;
     h1 {
@@ -28,7 +35,8 @@ export const InfoTitle = styled.div`
     }
   }
 `;
-export const InfoIcons = styled.div`
+
+export const HeadChatIconsWrap = styled.div`
   width: 120px;
   display: flex;
   justify-content: space-around;
@@ -77,12 +85,13 @@ export const ChatArea = styled.div`
   padding: 12px;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
 `;
 export const Input = styled.div`
   height: 80px;
   min-height: 80px;
-  border-top: ${({ theme }) => theme.borders.border1};
-  box-shadow: ${({ theme }) => theme.shadows.shadow2};
+  border-top: ${({ theme }) => `1px ${theme.borders.border1}`};
+  box-shadow: ${({ theme }) => `1px ${theme.borders.border1}`};
 
   form {
     display: flex;
@@ -127,7 +136,7 @@ export const Input = styled.div`
         align-items: center;
 
         img {
-          width: 25px;
+          width: 100px;
         }
       }
       button:hover {
@@ -168,15 +177,13 @@ export const Message = styled.div<MessageProps>`
       width: 50px;
       min-width: 50px;
       max-height: 50px;
-      background: gray;
+      background: #f4f7fe;
+      border: ${({ theme }) => `3px ${theme.borders.border1}`};
       border-radius: 50%;
       margin-right: 10px;
 
-      span {
-        /* height: 100%;
-            width: 100%;
-            background: teal;
-            border-radius: 50%; */
+      img {
+        width: 100%;
       }
     }
 
@@ -184,7 +191,7 @@ export const Message = styled.div<MessageProps>`
       max-width: 500px;
       display: flex;
       flex-direction: column;
-      align-items: ${({ owner }) => (owner ? "flex-start" : "flex-end")};
+      align-items: ${({ owner }) => (owner ? "flex-end" : "flex-end")};
       overflow-wrap: break-word;
       word-wrap: break-word;
       word-wrap: break-all;
@@ -201,14 +208,15 @@ export const Message = styled.div<MessageProps>`
         font-size: 12px;
         margin-top: 5px;
         color: #979292;
+        margin-right: ${({ owner }) => (owner ? "auto" : 0)};
       }
       p {
         background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};
         color: ${({ owner }) => (owner ? "#FFFFFF" : "#636363")};
         padding: 12px 9px;
         border-radius: 12px;
-        border-top-right-radius: ${({ owner }) => (owner ? "2px" : "12px")};
-        border-top-left-radius: ${({ owner }) => (owner ? "12px" : "2px")};
+        border-bottom-right-radius: ${({ owner }) => (owner ? "5px" : "12px")};
+        border-bottom-left-radius: ${({ owner }) => (owner ? "12px" : "5px")};
         line-height: 1.3rem;
         overflow-wrap: break-word;
         word-wrap: break-word;

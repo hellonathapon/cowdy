@@ -4,7 +4,7 @@ import { IMessage } from "../views/Home";
 import Message from "./_chat/Message";
 import Notify from "./_chat/Notify";
 import { Socket } from "socket.io-client";
-import { InfoTop, Input } from "./_chat";
+import { HeadChat, Input } from "./_chat";
 import { closed } from "../features/mechanic/mechanicSlice";
 import { useDispatch } from "react-redux";
 
@@ -37,7 +37,7 @@ function Chat({ message, socket }: Props): JSX.Element {
 
   return (
     <S.Chat>
-      <InfoTop />
+      <HeadChat />
       <S.ChatArea onClick={handleCloseSidebar}>
         {message.map((item: IMessage, i: number): JSX.Element => {
           return item.type === "message" ? (

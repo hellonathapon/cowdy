@@ -1,32 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as S from "../styled";
 import { useDispatch } from "react-redux";
 import { created, IUser } from "../features/user/userSlice";
 import { AppDispatch } from "../app/store";
 import { useNavigate } from "react-router-dom";
+import Avatar from "../components/Avatar";
+import BlockIcon from "../assets/svg/block.svg";
+import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 function Register(): JSX.Element {
-  /**
-   * * initial state based on its <type> should be initialized.
-   */
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const inputRef = useRef<null | HTMLInputElement>(null);
+  const reRef = useRef<ReCAPTCHA>(null);
+  const [selectAvatar, setSelectAvatar] = useState<number | null | undefined>(
+    null
+  );
+  const [isRobot, setIsRobot] = useState<boolean>(true);
   const [newUser, setNewUser] = useState<IUser>({
     /**
-     * * setNewUser isn't able to set ID here and therefore leave it null to store.
+     * * SET CLIENT ID IN STORE
      */
     clientID: null,
     username: null,
     role: null,
+    avatarID: null,
   });
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
-  const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (
+    e
+  ) => {
     e.preventDefault();
-    if (!newUser.username || !newUser.role) {
+    if (
+      !newUser.username ||
+      !newUser.role ||
+      selectAvatar === null ||
+      selectAvatar === undefined
+    ) {
       return;
     }
-    dispatch(created(newUser));
-    navigate("/");
+
+    const token = await reRef.current?.executeAsync();
+    reRef.current?.reset();
+
+    try {
+      /**
+       * * VERIFY reCAPTCHA
+       */
+      const response = await axios.post("/register", {
+        clientID: uuidv4(),
+        username: newUser.username,
+        role: newUser.role,
+        avatarID: newUser.avatarID,
+        token,
+      });
+
+      dispatch(
+        created({
+          clientID: response.data.clientID,
+          username: response.data.username,
+          role: response.data.role,
+          avatarID: response.data.avatarID,
+        })
+      );
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSetUsername = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -36,21 +78,58 @@ function Register(): JSX.Element {
     setNewUser({ ...newUser, role: e.target.value });
   };
 
+  const handleReCAPTCHA = (token: string | null) => {
+    console.log(token);
+    setIsRobot(false);
+  };
+
+  const setStateAvatar = () => {
+    if (selectAvatar === null || selectAvatar === undefined) {
+      return;
+    } else {
+      setNewUser((prevState) => ({ ...prevState, avatarID: selectAvatar }));
+    }
+  };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+  useEffect(() => {
+    setStateAvatar();
+  }, [selectAvatar]);
+
   return (
-    <S.regContainer>
-      <S.regWrapper>
+    <S.RegisterCtn>
+      <S.RegisterWrap>
         <article>
-          <h1>REGISTER</h1>
-          <h2>Let's get started with Introducing yourself</h2>
+          <figure>
+            <img src={BlockIcon} alt="" />
+          </figure>
+          <h1>SPACE COW</h1>
         </article>
-        <S.regForm onSubmit={handleFormSubmit}>
-          <input onChange={handleSetUsername} type="text" placeholder="Name" />
+        <S.RegForm onSubmit={handleFormSubmit}>
+          <input
+            ref={inputRef}
+            onChange={handleSetUsername}
+            type="text"
+            placeholder="Name"
+          />
           <input onChange={handleSetRole} type="text" placeholder="Role" />
-          <input type="file" />
+          <Avatar
+            selectAvatar={selectAvatar}
+            setSelectAvatar={setSelectAvatar}
+          />
+
+          <ReCAPTCHA
+            sitekey={`${process.env.REACT_APP_RECAPCHA_SITE_KEY}`}
+            size="invisible"
+            ref={reRef}
+          />
+
           <button type="submit">Register</button>
-        </S.regForm>
-      </S.regWrapper>
-    </S.regContainer>
+        </S.RegForm>
+      </S.RegisterWrap>
+    </S.RegisterCtn>
   );
 }
 

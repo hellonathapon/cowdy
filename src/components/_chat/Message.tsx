@@ -1,7 +1,7 @@
 import React from "react";
 import { IMessage } from "../../views/Home";
 import * as S from "../../styled";
-import { strToHnM } from "../../utils/formatDateStr";
+import { formatAMPM } from "../../utils/formatDateStr";
 
 interface Props {
   message: IMessage;
@@ -19,12 +19,17 @@ function Message(
         </section>
       ) : null}
       <div>
-        {!message.isOwner ? <figure></figure> : null}
+        {!message.isOwner ? (
+          <figure>
+            <img
+              src={require(`../../assets/Avatars-memoji/png/Avatar-${message?.avatarID}.png`)}
+              alt="User avartar"
+            />
+          </figure>
+        ) : null}
         <article>
           <p>{message.text}</p>
-          <small>
-            {strToHnM(new Date(message.timeStamp).toLocaleTimeString())}
-          </small>
+          <small>{formatAMPM(new Date(message.timeStamp))}</small>
         </article>
       </div>
       {/* <article>
