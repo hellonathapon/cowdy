@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Props {
+  disabled: boolean;
+}
+
 export const RegisterCtn = styled.div`
   width: 100vw;
   height: 100vh;
@@ -18,20 +22,21 @@ export const RegisterWrap = styled.div`
   border-radius: 8px;
   padding: 1rem 0;
   background-color: #ffffff;
-  box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
   margin: auto 1rem;
 
   article {
-    padding: 1rem 2rem;
+    /* padding: 1rem 2rem; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     figure {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       margin-bottom: 5px;
       overflow: hidden;
+      /* background: teal; */
 
       img {
         width: 100%;
@@ -43,6 +48,7 @@ export const RegisterWrap = styled.div`
       font-weight: bold;
       text-align: center;
       margin-bottom: 0.7rem;
+      color: ${({ theme }) => theme.cols.macT1};
     }
   }
 
@@ -78,20 +84,34 @@ export const RegForm = styled.form`
     font-size: 18px;
     border: none;
     border-bottom: 1px solid slateGray;
+    font-family: "Mark OT";
 
     &:focus {
       outline: none;
     }
+    ::placeholder {
+      font-size: 16px;
+    }
   }
-  button {
-    height: 3rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 22px;
-    font-weight: 500;
-    color: #ffffff;
-    cursor: pointer;
-    background: #2364d2;
-    box-shadow: 3px 10px 20px 0px rgba(35, 100, 210, 0.3);
+`;
+
+export const RegisterBtn = styled.button<Props>`
+  background-color: ${({ disabled, theme }) =>
+    disabled ? "gray" : theme.cols.macBlue};
+  color: #ffffff;
+  height: 3rem;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: ${({ disabled }) => (disabled ? "auto" : "pointer")};
+
+  &:hover {
+    background: #0268d6;
   }
 `;

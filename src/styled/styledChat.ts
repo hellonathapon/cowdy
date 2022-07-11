@@ -126,17 +126,30 @@ export const Input = styled.div`
       align-items: center;
 
       button {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: none;
         background: #0f89e3;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        img {
-          width: 100px;
+        figure {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 3px;
+
+          img {
+            width: 100%;
+          }
         }
       }
       button:hover {
@@ -148,9 +161,9 @@ export const Input = styled.div`
 `;
 
 export const Message = styled.div<MessageProps>`
-  padding: 12px 9px;
+  padding: "12px 9px";
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: "1rem";
   margin-left: ${({ owner }) => (owner ? "auto" : 0)};
   margin-right: ${({ owner }) => (owner ? 0 : "auto")};
   max-width: 600px;
@@ -177,7 +190,7 @@ export const Message = styled.div<MessageProps>`
       width: 50px;
       min-width: 50px;
       max-height: 50px;
-      background: #f4f7fe;
+      background: "#f4f7fe";
       border: ${({ theme }) => `3px ${theme.borders.border1}`};
       border-radius: 50%;
       margin-right: 10px;

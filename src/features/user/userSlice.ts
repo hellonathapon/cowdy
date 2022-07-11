@@ -1,32 +1,60 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// 'Identicon' is github pixel style user icon
+export interface IIdenticon {
+  hash: string;
+  rgba: [number, number, number, number]; // fixed length tuple
+}
 
 export interface IUser {
   clientID: string | null;
   username: string | null;
   role: string | null;
-  avatarID: number | null;
+  identicon: IIdenticon | null;
+  token: string | null | undefined;
 }
 
-const initialState: IUser = {
-  clientID: null,
-  username: null,
-  role: null,
-  avatarID: null,
+export interface IUserState {
+  data: IUser | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: IUserState = {
+  data: null,
+  loading: false,
+  error: null,
 };
+
+// Async thunk for interacts with external data API
+const AttemptRegisterUser = createAsyncThunk(
+  "user/register",
+  async (user: IUser) => {
+    const response = await axios.post("http://localhost:5000/register", user);
+    return response.data;
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    created: (state: IUser, action: PayloadAction<IUser>) => {
-      state.username = action.payload.username;
-      state.role = action.payload.role;
-      state.clientID = action.payload.clientID;
-      state.avatarID = action.payload.avatarID;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(AttemptRegisterUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(AttemptRegisterUser.rejected, (state, action) => {
+      state.error = "Unable to register user";
+      state.loading = false;
+    });
+    builder.addCase(AttemptRegisterUser.fulfilled, (state, action) => {
+      console.log("on fulfilled", action.payload);
+      state.data = action.payload;
+      state.loading = false;
+    });
   },
 });
 
 export default userSlice.reducer;
-export const { created } = userSlice.actions;
+export { AttemptRegisterUser };

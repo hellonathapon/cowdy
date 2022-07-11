@@ -1,30 +1,40 @@
-import React from "react";
-import { IMessage } from "../../views/Home";
+import React, { memo } from "react";
+import { IMessage } from "../../features/message/messageSlice";
 import * as S from "../../styled";
 import { formatAMPM } from "../../utils/formatDateStr";
+import { useSelector } from "react-redux";
+// import useUser from "../hooks/useUser";
+import { RootState } from "../../app/store";
+import genIdenticon from "../../utils/genIdenticon";
 
 interface Props {
   message: IMessage;
 }
 
-function Message(
+const Message = (
   { message }: Props,
   ref: React.Ref<HTMLDivElement> | null
-): JSX.Element {
+): JSX.Element => {
+  // const messages = useSelector((state: RootState) => state.message);
+  const iden = genIdenticon(
+    message.senderData?.identicon?.hash,
+    message.senderData?.identicon?.rgba
+  );
+
   return (
-    <S.Message ref={ref} owner={message.isOwner}>
+    // <>
+    //   {messages.map((item, i) => {
+    //     return item.type === "message" ? (
+    <S.Message ref={ref} owner={message?.isOwner}>
       {!message.isOwner ? (
         <section>
-          <small>{message.owner}</small>
+          <small>{message.senderData?.username}</small>
         </section>
       ) : null}
       <div>
         {!message.isOwner ? (
           <figure>
-            <img
-              src={require(`../../assets/Avatars-memoji/png/Avatar-${message?.avatarID}.png`)}
-              alt="User avartar"
-            />
+            <img src={`data:image/png;base64, ${iden}`} alt="Identicon" />
           </figure>
         ) : null}
         <article>
@@ -32,13 +42,19 @@ function Message(
           <small>{formatAMPM(new Date(message.timeStamp))}</small>
         </article>
       </div>
-      {/* <article>
-        <p>{message.text}</p>
-      </article> */}
     </S.Message>
+    //       ) : (
+    //         <S.Notify key={i}>
+    //           <p>{item.text}</p>
+    //           {/* <p>{ timeStamp.toString() }</p> */}
+    //         </S.Notify>
+    //       );
+    //     })}
+    //   </>
   );
-}
+};
 
 const forwardEl = React.forwardRef(Message);
+// const MemoizedMessage = React.memo(Message);
 
 export default forwardEl;

@@ -1,44 +1,44 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as S from "../styled";
 import { useDispatch } from "react-redux";
-import { created, IUser } from "../features/user/userSlice";
+import {
+  AttemptRegisterUser,
+  IUser,
+  IIdenticon,
+} from "../features/user/userSlice";
 import { AppDispatch } from "../app/store";
 import { useNavigate } from "react-router-dom";
-import Avatar from "../components/Avatar";
-import BlockIcon from "../assets/svg/block.svg";
+import BlockIcon from "../assets/png/cowdy3.png";
 import ReCAPTCHA from "react-google-recaptcha";
-import axios from "axios";
+import genIdenticon from "../utils/genIdenticon";
 import { v4 as uuidv4 } from "uuid";
+import RegisterBtn from "../components/RegisterBtn";
+import CryptoJS from "crypto-js";
+import Identicon from "../components/Identicon";
 
 function Register(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const reRef = useRef<ReCAPTCHA>(null);
-  const [selectAvatar, setSelectAvatar] = useState<number | null | undefined>(
-    null
-  );
+  const [identicon, setIdenticon] = useState<IIdenticon>({
+    hash: "c157a79031e1c40f85931829bc5fc552",
+    rgba: [14, 165, 233, 255],
+  });
   const [isRobot, setIsRobot] = useState<boolean>(true);
   const [newUser, setNewUser] = useState<IUser>({
-    /**
-     * * SET CLIENT ID IN STORE
-     */
     clientID: null,
     username: null,
     role: null,
-    avatarID: null,
+    identicon: identicon,
+    token: null,
   });
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (
     e
   ) => {
     e.preventDefault();
-    if (
-      !newUser.username ||
-      !newUser.role ||
-      selectAvatar === null ||
-      selectAvatar === undefined
-    ) {
+    if (!newUser.username || !newUser.role) {
       return;
     }
 
@@ -49,20 +49,14 @@ function Register(): JSX.Element {
       /**
        * * VERIFY reCAPTCHA
        */
-      const response = await axios.post("/register", {
-        clientID: uuidv4(),
-        username: newUser.username,
-        role: newUser.role,
-        avatarID: newUser.avatarID,
-        token,
-      });
 
       dispatch(
-        created({
-          clientID: response.data.clientID,
-          username: response.data.username,
-          role: response.data.role,
-          avatarID: response.data.avatarID,
+        AttemptRegisterUser({
+          clientID: uuidv4(),
+          username: newUser.username,
+          role: newUser.role,
+          identicon,
+          token,
         })
       );
       navigate("/");
@@ -83,20 +77,25 @@ function Register(): JSX.Element {
     setIsRobot(false);
   };
 
-  const setStateAvatar = () => {
-    if (selectAvatar === null || selectAvatar === undefined) {
-      return;
-    } else {
-      setNewUser((prevState) => ({ ...prevState, avatarID: selectAvatar }));
-    }
+  const setIdenticonColor = (selectCol: [number, number, number, number]) => {
+    setIdenticon((p) => ({ ...p, rgba: selectCol }));
   };
+
+  // CryptoJS.SHA256 returns obj when use in string context, it automatically convert to hexdecimal
+  var hash = newUser.username
+    ? `${CryptoJS.SHA256(newUser.username)}`
+    : "c157a79031e1c40f85931829bc5fc552";
+  // create a base64 encoded PNG
+  var iden = genIdenticon(hash, identicon.rgba);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // UPDATE IDENTICON DATA WHEN USER TYPING
   useEffect(() => {
-    setStateAvatar();
-  }, [selectAvatar]);
+    setIdenticon({ hash: hash, rgba: [14, 165, 233, 255] });
+  }, [newUser.username, newUser.role]);
 
   return (
     <S.RegisterCtn>
@@ -105,19 +104,25 @@ function Register(): JSX.Element {
           <figure>
             <img src={BlockIcon} alt="" />
           </figure>
-          <h1>SPACE COW</h1>
+          <h1>Cowdy</h1>
         </article>
         <S.RegForm onSubmit={handleFormSubmit}>
           <input
             ref={inputRef}
             onChange={handleSetUsername}
             type="text"
-            placeholder="Name"
+            placeholder="Username"
           />
-          <input onChange={handleSetRole} type="text" placeholder="Role" />
-          <Avatar
-            selectAvatar={selectAvatar}
-            setSelectAvatar={setSelectAvatar}
+          <input
+            onChange={handleSetRole}
+            type="text"
+            placeholder="Proficient in"
+          />
+
+          <Identicon identicon={iden} setIdenticonColor={setIdenticonColor} />
+
+          <RegisterBtn
+            disabled={newUser.username && newUser.role ? false : true}
           />
 
           <ReCAPTCHA
@@ -125,8 +130,6 @@ function Register(): JSX.Element {
             size="invisible"
             ref={reRef}
           />
-
-          <button type="submit">Register</button>
         </S.RegForm>
       </S.RegisterWrap>
     </S.RegisterCtn>

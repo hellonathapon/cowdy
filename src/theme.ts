@@ -18,5 +18,7 @@ export default {
   cols: {
     title: "#242972",
     subtitle: "#3d3d4e",
+    macT1: "#2f3040",
+    macBlue: "#007aff",
   },
 };

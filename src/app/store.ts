@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/user/userSlice";
 import peopleReducer from "../features/people/peopleSlice";
 import mechanicReducer from "../features/mechanic/mechanicSlice";
+import messageReducer from "../features/message/messageSlice";
 
 const store = configureStore({
   reducer: {
+    message: messageReducer,
     user: userReducer,
     people: peopleReducer,
     mechanic: mechanicReducer,

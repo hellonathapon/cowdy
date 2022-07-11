@@ -9,7 +9,7 @@ export const SidebarCtn = styled.div`
   flex-direction: row;
   height: 100%;
   overflow: auto;
-  background: #f9f9fa;
+  background: #ffffff;
   br {
     color: gray;
   }
@@ -95,7 +95,8 @@ export const User = styled.div<Props>`
       h1 {
         font-weight: bold;
         font-size: ${({ isOwner }) => (isOwner ? "25px" : "16px")};
-        color: ${({ theme }) => theme.cols.title};
+        color: ${({ theme }) => theme.cols.macT1};
+        font-weight: bold;
         margin-bottom: 3.5px;
         white-space: nowrap;
         overflow: hidden;

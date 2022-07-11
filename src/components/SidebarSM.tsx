@@ -19,7 +19,7 @@ function SidebarSM() {
   return (
     <S.SidebarCtnSM open={isOpen}>
       <S.SidebarWrap>
-        <UserSm user={user} isOwner={true} />
+        <UserSm user={user.data} isOwner={true} />
 
         {/* list of people */}
         {people.length ? (

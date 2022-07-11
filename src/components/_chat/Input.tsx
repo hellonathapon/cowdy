@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Socket } from "socket.io-client";
 import * as S from "../../styled";
-import SendIcon from "../../assets/png/send.png";
+import SendIcon from "../../assets/png/paper-plane.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 
@@ -21,9 +21,8 @@ function Input({ socket }: Props): JSX.Element {
     } else {
       socket.emit("global", {
         message: inputMessage,
-        owner: user.username,
-        clientID: user.clientID,
-        avatarID: user.avatarID,
+        senderID: user.data?.clientID,
+        sender: user.data,
       });
       setInputMessage("");
     }
@@ -44,7 +43,9 @@ function Input({ socket }: Props): JSX.Element {
         </div>
         <div>
           <button type="submit">
-            <img src={SendIcon} />
+            <figure>
+              <img src={SendIcon} />
+            </figure>
           </button>
         </div>
       </form>

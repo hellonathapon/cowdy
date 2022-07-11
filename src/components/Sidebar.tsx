@@ -10,7 +10,7 @@ function Sidebar(): JSX.Element {
   return (
     <S.Sidebar>
       <S.SidebarCtn>
-        <User user={user} isOwner={true} />
+        <User user={user.data} isOwner={true} />
 
         {/* list of people */}
         {people.length ? (

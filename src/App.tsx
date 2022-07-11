@@ -5,6 +5,7 @@ import { RootState } from "./store/store";
 
 function App(): JSX.Element {
   const user = useSelector((state: RootState) => state.user);
+  console.log("USER", user);
 
   return (
     <Router>

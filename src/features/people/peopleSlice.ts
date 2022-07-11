@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../user/userSlice";
 
-interface IPeople {
+interface IPeopleState {
   people: Array<IUser>;
 }
 
-const initialState: IPeople = {
+const initialState: IPeopleState = {
   people: [],
 };
 
@@ -13,13 +13,14 @@ const peopleSlice = createSlice({
   name: "people",
   initialState,
   reducers: {
-    added: (state: IPeople, action: PayloadAction<IUser[]>) => {
+    added: (state: IPeopleState, action: PayloadAction<IUser[]>) => {
       state.people = action.payload;
     },
-    joined: (state: IPeople, action: PayloadAction<IUser>) => {
+    joined: (state: IPeopleState, action: PayloadAction<IUser>) => {
       state.people.push(action.payload);
     },
-    leaved: (state: IPeople, action: PayloadAction<string>) => {
+    leaved: (state: IPeopleState, action: PayloadAction<string>) => {
+      // filter out a leaved user
       let index: number = state.people
         .map((item: IUser) => item.clientID)
         .indexOf(action.payload);

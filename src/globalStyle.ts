@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import SFPro from "./assets/fonts/SF-Pro-Display-Regular.otf";
 import SFProBold from "./assets/fonts/SF-Pro-Display-Bold.otf";
 import SFProBlack from "./assets/fonts/SF-Pro-Display-Black.otf";
+import MarkOT from "./assets/fonts/Mark-OT.woff2.ttf";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -49,6 +50,12 @@ table {
 }
 
 @font-face {
+	font-family: "Mark OT";
+	src: url(${MarkOT}) format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+/* @font-face {
 	font-family: "SF-Pro";
 	src: url(${SFProBlack}) format('opentype');
 	font-weight: black;
@@ -66,12 +73,12 @@ table {
 	src: url(${SFProBold}) format('opentype');
 	font-weight: bold;
 	font-style: normal;
-}
+} */
 
 
 html, body {
 	height: 100%;
-	font-family: "SF-Pro", sans-serif;
+	font-family: "Mark OT", sans-serif;
 }
 
 `;

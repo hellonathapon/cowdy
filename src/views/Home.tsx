@@ -3,25 +3,12 @@ import { io, Socket } from "socket.io-client";
 import * as S from "../styled";
 import Sidebar from "../components/Sidebar";
 import SidebarSM from "../components/SidebarSM";
-import Chat from "../components/Chat";
+import MemoizedChat from "../components/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { added, joined, leaved } from "../features/people/peopleSlice";
+import { inserted, IMessage } from "../features/message/messageSlice";
 import { IUser } from "../features/user/userSlice";
-
-// string literal union type
-type MessageType = "message" | "notify";
-
-export interface IMessage {
-  type: MessageType;
-  text: string | null;
-  isOwner: boolean;
-  owner: string;
-  ownerData?: IUser;
-  timeStamp: Date;
-  people?: object;
-  avatarID?: string;
-}
 
 interface IUsers {
   timeStamp: Date;
@@ -30,56 +17,51 @@ interface IUsers {
 }
 
 function Home() {
+  const dispatch = useDispatch();
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [message, setMessage] = useState<Array<IMessage>>([]);
-  const [chatMessage, setChatMessage] = useState<Array<IMessage>>([]);
 
   const user = useSelector((state: RootState) => state.user);
-  const { clientID, username, role, avatarID } = user;
-  const dispatch = useDispatch();
+  // const messages = useSelector((state: RootState) => state.message);
 
   useEffect(() => {
     /**
      * * SENDING INITIAL HANDSHAKE DATA TO THE SERVER
      */
     const newSocket: Socket = io("http://localhost:5000", {
-      query: { clientID, username, role, avatarID },
+      query: {
+        clientID: user.data?.clientID,
+        username: user.data?.username,
+        role: user.data?.role,
+        identiconHash: user.data?.identicon?.hash, // extract obj and passing as a plain string
+        identiconRgba: user.data?.identicon?.rgba, // due to nested obj couldn't be passed to query string
+      },
     });
 
     setSocket(newSocket);
 
-    newSocket.on("connection", (data) => {
-      setMessage((prev) => [...prev, data]);
-      /**
-       * * FOR OLD USERS
-       * * RECIEVE THE NEW USER DATA E.G. NAME, ROLE FROM THE SERVER
-       * * STORE IN GLOBAL STATE LIKE REDUX.
-       */
-      dispatch(joined(data.ownerData));
+    newSocket.on("connection", (data: IMessage) => {
+      console.log("on connection", data.senderData);
+      dispatch(inserted(data)); // push 'notify' message to active users
+      dispatch(joined(data.senderData!)); // add new user to the people list
     });
 
     newSocket.on("users", (data: IUsers) => {
-      /**
-       * * FOR NEW USER
-       * * RECIEVE THE DATA OF THOSE WHO PREVIOUSLY JOINING THE CHAT
-       * * 1. FILTER RECIEVER DATA OUT OF USERS LIST AND STORE IT TO PEOPLE
-       */
+      // recieve all the users data, delete reciever out
       delete data.people[data.sid as keyof IUser];
-      dispatch(added(Object.values(data.people)));
+      dispatch(added(Object.values(data.people))); // add previous users to the list of active
     });
 
     newSocket.on("disconnection", (data: IMessage) => {
-      console.log("first");
-      setMessage((prev) => [...prev, data]);
+      dispatch(inserted(data));
 
-      const id = data.ownerData?.clientID;
+      const id = data.senderData?.clientID;
 
       dispatch(leaved(id!));
     });
 
     // LISTEN ON GLOBAL ROOM
     newSocket.on("global", (data: IMessage) => {
-      setMessage((prev) => [...prev, data]);
+      dispatch(inserted(data));
     });
 
     return () => {
@@ -91,7 +73,7 @@ function Home() {
     <S.App>
       <Sidebar />
       <SidebarSM />
-      <Chat message={message} socket={socket!} />
+      <MemoizedChat socket={socket!} />
     </S.App>
   );
 }

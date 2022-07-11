@@ -1,19 +1,25 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect, memo } from "react";
 import * as S from "../styled";
-import { IMessage } from "../views/Home";
+import { IMessage } from "../features/message/messageSlice";
 import Message from "./_chat/Message";
 import Notify from "./_chat/Notify";
 import { Socket } from "socket.io-client";
 import { HeadChat, Input } from "./_chat";
 import { closed } from "../features/mechanic/mechanicSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import useUser from "../hooks/useUser";
+import { RootState } from "../app/store";
 
 interface Props {
-  message: Array<IMessage>;
   socket: Socket;
 }
 
-function Chat({ message, socket }: Props): JSX.Element {
+function Chat({ socket }: Props): JSX.Element {
+  const messages: IMessage[] = useSelector((state: RootState) => state.message);
+  const user = useSelector((state: RootState) => state.user);
+  // const isLastMessageMine = useUser(messages, user.clientID);
+  // console.log("message", messages);
+
   const el = useRef<null | HTMLDivElement>(null);
 
   /**
@@ -33,23 +39,25 @@ function Chat({ message, socket }: Props): JSX.Element {
 
   useEffect(() => {
     scrollToBottom();
-  }, [message]);
+  }, [messages]);
 
   return (
     <S.Chat>
       <HeadChat />
       <S.ChatArea onClick={handleCloseSidebar}>
-        {message.map((item: IMessage, i: number): JSX.Element => {
+        {messages.map((item: IMessage, i: number): JSX.Element => {
           return item.type === "message" ? (
             <Message ref={el} message={item} key={i} />
           ) : (
             <Notify text={item.text!} timeStamp={item.timeStamp} key={i} />
           );
         })}
+        {/* <MemoizedMessage /> */}
       </S.ChatArea>
       <Input socket={socket} />
     </S.Chat>
   );
 }
 
-export default Chat;
+const MemoizedChat = memo(Chat);
+export default MemoizedChat;

@@ -1,13 +1,19 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { IUser } from "../features/user/userSlice";
+import { IUserState } from "../features/user/userSlice";
 
 interface Props {
-  isAuth: IUser;
+  isAuth: IUserState;
 }
 
 function RouteGuard({ isAuth }: Props): JSX.Element {
-  return isAuth.username ? <Outlet /> : <Navigate to="/register" />;
+  console.log("isAuth", isAuth);
+
+  if (isAuth.loading) {
+    return <p>Loading</p>;
+  }
+
+  return isAuth.data ? <Outlet /> : <Navigate to="/register" />;
 }
 
 export default RouteGuard;
