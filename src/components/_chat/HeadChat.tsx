@@ -3,6 +3,7 @@ import * as S from "../../styled";
 import { toggled } from "../../features/mechanic/mechanicSlice";
 import { useDispatch } from "react-redux";
 import LogoIcon from "../../assets/svg/axe.svg";
+// import GithubIcon from "../../assets/png/github1.png";
 
 function Header(): JSX.Element {
   const dispatch = useDispatch();
@@ -67,6 +68,13 @@ function Header(): JSX.Element {
             </figure>
           </div>
         </a>
+        {/* <a href="#">
+          <div>
+            <figure>
+              <img src={GithubIcon} alt="github" />
+            </figure>
+          </div>
+        </a> */}
       </S.HeadChatIconsWrap>
     </S.HeadChatCtn>
   );

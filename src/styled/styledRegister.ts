@@ -45,10 +45,10 @@ export const RegisterWrap = styled.div`
     }
     h1 {
       font-size: 20px;
-      font-weight: bold;
       text-align: center;
       margin-bottom: 0.7rem;
       color: ${({ theme }) => theme.cols.macT1};
+      font-weight: bold;
     }
   }
 
@@ -93,6 +93,15 @@ export const RegForm = styled.form`
       font-size: 16px;
     }
   }
+
+  small {
+    margin-top: 5px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 export const RegisterBtn = styled.button<Props>`
@@ -112,6 +121,6 @@ export const RegisterBtn = styled.button<Props>`
   cursor: ${({ disabled }) => (disabled ? "auto" : "pointer")};
 
   &:hover {
-    background: #0268d6;
+    background: ${({ disabled }) => (disabled ? "gray" : "#0268d6")};
   }
 `;

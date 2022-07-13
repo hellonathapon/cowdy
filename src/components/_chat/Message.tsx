@@ -21,6 +21,16 @@ const Message = (
     message.senderData?.identicon?.rgba
   );
 
+  // const text = message.text.replace(/(www\..+?)(\s|$)/g, function (text, link) {
+  //   return '<a href="http://' + link + '">' + link + "</a>";
+  // });
+
+  // function replaceURLWithHTMLLinks(text: string) {
+  //   var exp =
+  //     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+  //   return text.replace(exp, "<a href='$1'>$1</a>");
+  // }
+
   return (
     // <>
     //   {messages.map((item, i) => {

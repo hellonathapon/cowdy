@@ -1,3 +1,4 @@
+import React from "react";
 import * as S from "../styled";
 
 interface Props {
@@ -23,6 +24,7 @@ function Identicon({ identicon, setIdenticonColor }: Props) {
   const handleSetColor = (col: IColor) => {
     setIdenticonColor(col.rgbaVal);
   };
+  console.log("Re-rendering Identicon");
   return (
     <S.IdenticonCtn>
       <S.IdenticonIMGWrap>
@@ -48,4 +50,4 @@ function Identicon({ identicon, setIdenticonColor }: Props) {
   );
 }
 
-export default Identicon;
+export default React.memo(Identicon);

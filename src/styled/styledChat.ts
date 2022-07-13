@@ -63,6 +63,9 @@ export const HeadChatIconsWrap = styled.div`
         svg {
           width: 50%;
         }
+        img {
+          width: 50%;
+        }
         &:hover {
           cursor: pointer;
           background: #e7e7e8;

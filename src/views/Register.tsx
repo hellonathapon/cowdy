@@ -17,45 +17,45 @@ import CryptoJS from "crypto-js";
 import Identicon from "../components/Identicon";
 
 function Register(): JSX.Element {
+  console.log("Re-rendering Register");
+  /**
+   * * Identicon figure depends on input value *username, So component states need to be declared separately
+   * * to avoid unnecessary re-rendering.
+   */
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const reRef = useRef<ReCAPTCHA>(null);
-  const [identicon, setIdenticon] = useState<IIdenticon>({
-    hash: "c157a79031e1c40f85931829bc5fc552",
-    rgba: [14, 165, 233, 255],
-  });
+  const [hexString, setHexString] = useState<string>(
+    "c157a79031e1c40f85931829bc5fc552"
+  );
+  const [rgba, setRgba] = useState<[number, number, number, number]>([
+    15, 23, 42, 255,
+  ]);
   const [isRobot, setIsRobot] = useState<boolean>(true);
-  const [newUser, setNewUser] = useState<IUser>({
-    clientID: null,
-    username: null,
-    role: null,
-    identicon: identicon,
-    token: null,
-  });
+  const [username, setUsername] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  const [checkbox, setCheckbox] = useState<boolean>(false);
 
-  const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (
-    e
-  ) => {
+  async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!newUser.username || !newUser.role) {
+    if (!username || !role) {
       return;
     }
 
-    const token = await reRef.current?.executeAsync();
+    const token = await reRef.current?.executeAsync(); // reCAPCHA token
     reRef.current?.reset();
 
     try {
       /**
-       * * VERIFY reCAPTCHA
+       * * mainly purpose is to verify reCAPTCHA token
        */
-
       dispatch(
         AttemptRegisterUser({
           clientID: uuidv4(),
-          username: newUser.username,
-          role: newUser.role,
-          identicon,
+          username: username,
+          role: role,
+          identicon: { hash: hexString, rgba: rgba },
           token,
         })
       );
@@ -63,30 +63,45 @@ function Register(): JSX.Element {
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
-  const handleSetUsername = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setNewUser({ ...newUser, username: e.target.value });
-  };
-  const handleSetRole = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setNewUser({ ...newUser, role: e.target.value });
-  };
+  function handleSetUsername(e: React.ChangeEvent<HTMLInputElement>): void {
+    setUsername(e.target.value);
+  }
 
-  const handleReCAPTCHA = (token: string | null) => {
-    console.log(token);
+  function handleSetRole(e: React.ChangeEvent<HTMLInputElement>): void {
+    setRole(e.target.value);
+  }
+
+  function handleReCAPTCHA(token: string | null) {
     setIsRobot(false);
-  };
+  }
 
-  const setIdenticonColor = (selectCol: [number, number, number, number]) => {
-    setIdenticon((p) => ({ ...p, rgba: selectCol }));
-  };
+  const setIdenticonColor = React.useCallback(
+    (selectCol: [number, number, number, number]) => {
+      // setIdenticon((p) => ({ ...p, rgba: selectCol }));
+      setRgba(selectCol);
+    },
+    []
+  );
 
   // CryptoJS.SHA256 returns obj when use in string context, it automatically convert to hexdecimal
-  var hash = newUser.username
-    ? `${CryptoJS.SHA256(newUser.username)}`
-    : "c157a79031e1c40f85931829bc5fc552";
-  // create a base64 encoded PNG
-  var iden = genIdenticon(hash, identicon.rgba);
+  function calcHexStr(str: string | null): string {
+    if (str) {
+      return `${CryptoJS.SHA256(str)}`;
+    } else {
+      return "c157a79031e1c40f85931829bc5fc552";
+    }
+  }
+
+  const MemoizeCalcHexStr = React.useMemo(() => {
+    return calcHexStr(username);
+  }, [username]);
+
+  // Create a base64 encoded PNG
+  const memoizeGenIdenticon = React.useMemo(() => {
+    return genIdenticon(MemoizeCalcHexStr, rgba);
+  }, [MemoizeCalcHexStr, rgba]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -94,8 +109,8 @@ function Register(): JSX.Element {
 
   // UPDATE IDENTICON DATA WHEN USER TYPING
   useEffect(() => {
-    setIdenticon({ hash: hash, rgba: [14, 165, 233, 255] });
-  }, [newUser.username, newUser.role]);
+    setHexString(MemoizeCalcHexStr);
+  }, [username]);
 
   return (
     <S.RegisterCtn>
@@ -119,11 +134,24 @@ function Register(): JSX.Element {
             placeholder="Proficient in"
           />
 
-          <Identicon identicon={iden} setIdenticonColor={setIdenticonColor} />
-
-          <RegisterBtn
-            disabled={newUser.username && newUser.role ? false : true}
+          <Identicon
+            identicon={memoizeGenIdenticon}
+            setIdenticonColor={setIdenticonColor}
           />
+
+          <RegisterBtn disabled={username && role ? false : true} />
+
+          <small>
+            <input
+              type="checkbox"
+              checked={checkbox}
+              onClick={() => setCheckbox(!checkbox)}
+            />
+            <small>
+              This is one time registration, we do not collect your personal
+              data.
+            </small>
+          </small>
 
           <ReCAPTCHA
             sitekey={`${process.env.REACT_APP_RECAPCHA_SITE_KEY}`}

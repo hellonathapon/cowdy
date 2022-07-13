@@ -74,6 +74,7 @@ export const User = styled.div<Props>`
         background: #f4f7fe;
         border: ${({ theme }) => `3px ${theme.borders.border1}`};
         border-radius: 50%;
+        overflow: hidden;
 
         img {
           width: 100%;
