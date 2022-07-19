@@ -12,7 +12,10 @@ Features & Progress
 - [x] Style each message part in chatarea
 - [x] Convert timestamp to be a user friendly format
 - [x] Add toggle side bar for mobile and tablet screens
-- [ ] Let user choose an avatar on registration
+- [x] Let user choose an avatar on registration
+- [x] Switch to Identicon for user Avatar
 - [ ] Detech message contains link
 - [ ] Implement Emojis parser
-- [ ] Implement Images blob
+- [ ] Hide sender name and icon for subsequent messages being sent from the same sender in row
+- [ ] Global time stamp, grouping message in particular time.
+- [ ] Make use user status to tell if user active or leave

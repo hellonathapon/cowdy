@@ -35,7 +35,6 @@ function Register(): JSX.Element {
   const [isRobot, setIsRobot] = useState<boolean>(true);
   const [username, setUsername] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  const [checkbox, setCheckbox] = useState<boolean>(false);
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -142,14 +141,14 @@ function Register(): JSX.Element {
           <RegisterBtn disabled={username && role ? false : true} />
 
           <small>
-            <input
+            {/* <input
               type="checkbox"
               checked={checkbox}
               onClick={() => setCheckbox(!checkbox)}
-            />
+            /> */}
             <small>
               This is one time registration, we do not collect your personal
-              data.
+              data. refresh the page means new register
             </small>
           </small>
 

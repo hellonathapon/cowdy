@@ -18,8 +18,8 @@ function Header(): JSX.Element {
           <img src={LogoIcon} alt="logo" />
         </figure>
         <article>
-          <h1>c/tech</h1>
-          <p>Everyone is welcome</p>
+          <h1>c/field</h1>
+          <p>Cows on the field</p>
         </article>
       </S.HeadChatTitleWrap>
 

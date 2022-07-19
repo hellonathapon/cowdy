@@ -29,7 +29,9 @@ function SidebarSM() {
             </div>
           ))
         ) : (
-          <p>No one here</p>
+          <S.NoActiveUserPlaceholder>
+            <p>No one here</p>
+          </S.NoActiveUserPlaceholder>
         )}
       </S.SidebarWrap>
     </S.SidebarCtnSM>

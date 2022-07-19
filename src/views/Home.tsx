@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 import * as S from "../styled";
 import Sidebar from "../components/Sidebar";
 import SidebarSM from "../components/SidebarSM";
-import MemoizedChat from "../components/Chat";
+import Chat from "../components/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { added, joined, leaved } from "../features/people/peopleSlice";
@@ -17,8 +17,10 @@ interface IUsers {
 }
 
 function Home() {
+  console.log("Re-rendering HOME");
   const dispatch = useDispatch();
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [messages, setMessages] = useState<Array<IMessage>>([]);
 
   const user = useSelector((state: RootState) => state.user);
   // const messages = useSelector((state: RootState) => state.message);
@@ -62,6 +64,7 @@ function Home() {
     // LISTEN ON GLOBAL ROOM
     newSocket.on("global", (data: IMessage) => {
       dispatch(inserted(data));
+      // setMessages((pre) => [...pre, data]);
     });
 
     return () => {
@@ -73,7 +76,7 @@ function Home() {
     <S.App>
       <Sidebar />
       <SidebarSM />
-      <MemoizedChat socket={socket!} />
+      <Chat socket={socket!} />
     </S.App>
   );
 }

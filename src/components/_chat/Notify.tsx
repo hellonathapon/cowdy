@@ -1,18 +1,22 @@
 import React from "react";
 import * as S from "../../styled";
 
-interface NotifyProps {
+interface Props {
   text: string;
   timeStamp: Date;
 }
 
-function Notify({ text, timeStamp }: NotifyProps) {
+function Notify(
+  { text, timeStamp }: Props,
+  ref: React.Ref<HTMLDivElement> | null
+): JSX.Element {
   return (
-    <S.Notify>
+    <S.Notify ref={ref}>
       <p>{text}</p>
       {/* <p>{ timeStamp.toString() }</p> */}
     </S.Notify>
   );
 }
 
-export default Notify;
+const forwardEl = React.forwardRef(Notify);
+export default React.memo(forwardEl);

@@ -1,5 +1,7 @@
 import React from "react";
 import * as S from "../styled";
+import { FaPaintBrush } from "react-icons/fa";
+import { RiBrush2Line } from "react-icons/ri";
 
 interface Props {
   identicon: string | null;
@@ -42,6 +44,7 @@ function Identicon({ identicon, setIdenticonColor }: Props) {
             key={i}
             tabIndex={0}
           >
+            <FaPaintBrush />
             {item.name}
           </S.IdenticonColLI>
         ))}

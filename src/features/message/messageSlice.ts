@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { IUser } from "../user/userSlice";
+import { RootState } from "../../app/store";
 
 type MessageType = "message" | "notify";
 
@@ -16,7 +17,7 @@ export interface IMessage {
 const initialState: IMessage[] = [];
 
 const messageSlice = createSlice({
-  name: "message",
+  name: "messages",
   initialState,
   reducers: {
     inserted: (state: IMessage[], action: PayloadAction<IMessage>) => {
@@ -39,6 +40,15 @@ const messageSlice = createSlice({
     },
   },
 });
+
+export const selectMessages = createSelector(
+  (state: RootState) => state.messages, // call initially
+  (messages) =>
+    new Date(messages[messages.length - 1].timeStamp).getDate() >=
+    new Date().getDate()
+      ? messages[messages.length - 1]
+      : null
+);
 
 export default messageSlice.reducer;
 export const { inserted } = messageSlice.actions;

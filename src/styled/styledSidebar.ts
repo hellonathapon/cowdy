@@ -35,6 +35,7 @@ export const SidebarCtnSM = styled.div<Props>`
 
 export const SidebarWrap = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 export const User = styled.div<Props>`
@@ -143,6 +144,7 @@ export const UserSm = styled.div<Props>`
   justify-content: center;
   align-items: center;
   box-shadow: ${({ theme, isOwner }) => (isOwner ? theme.shadows.bt1 : "none")};
+  border-radius: ${({ isOwner }) => (isOwner ? "none" : "15px")};
 
   div {
     display: flex;
@@ -150,6 +152,9 @@ export const UserSm = styled.div<Props>`
     figure {
       width: ${({ isOwner }) => (isOwner ? "80px" : "50px")};
       height: ${({ isOwner }) => (isOwner ? "80px" : "50px")};
+      border: ${({ theme }) => `3px ${theme.borders.border1}`};
+      border-radius: 50%;
+      overflow: hidden;
 
       img {
         width: 100%;
@@ -172,7 +177,7 @@ export const UserSm = styled.div<Props>`
       padding-left: ${({ isOwner }) => (isOwner ? "15px" : "10px")};
       padding-right: ${({ isOwner }) => (isOwner ? "15px" : "0")};
       h1 {
-        font-size: ${({ isOwner }) => (isOwner ? "20px" : "16px")};
+        font-size: ${({ isOwner }) => (isOwner ? "18px" : "16px")};
         color: ${({ theme }) => theme.cols.title};
         font-weight: bold;
         margin-bottom: 5px;
@@ -182,7 +187,7 @@ export const UserSm = styled.div<Props>`
         width: 100%;
       }
       h4 {
-        font-size: ${({ isOwner }) => (isOwner ? "18px" : "15px")};
+        font-size: ${({ isOwner }) => (isOwner ? "15px" : "14px")};
         color: ${({ theme }) => theme.cols.subtitle};
         margin-bottom: 5px;
         white-space: nowrap;
@@ -191,7 +196,7 @@ export const UserSm = styled.div<Props>`
         width: 100%;
       }
       p {
-        font-size: 12px;
+        font-size: 11px;
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;
@@ -223,5 +228,17 @@ export const UserSm = styled.div<Props>`
 
   @media ${({ theme }) => theme.breakpoints.desktop} {
     display: none;
+  }
+`;
+
+export const NoActiveUserPlaceholder = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 1rem;
   }
 `;

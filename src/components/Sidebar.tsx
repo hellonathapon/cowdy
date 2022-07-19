@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 
 function Sidebar(): JSX.Element {
+  console.log("Re-rendering SIDEBAR");
   const user = useSelector((state: RootState) => state.user);
   const people = useSelector((state: RootState) => state.people.people);
 
@@ -20,7 +21,9 @@ function Sidebar(): JSX.Element {
             </div>
           ))
         ) : (
-          <p>No one here</p>
+          <S.NoActiveUserPlaceholder>
+            <p>No one here</p>
+          </S.NoActiveUserPlaceholder>
         )}
       </S.SidebarCtn>
     </S.Sidebar>

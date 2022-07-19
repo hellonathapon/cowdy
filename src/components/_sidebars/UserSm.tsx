@@ -1,7 +1,6 @@
-import React from "react";
-import Avartar from "../../assets/Avatars-memoji/png/Avatar-9.png";
 import * as S from "../../styled";
 import { IUser } from "../../features/user/userSlice";
+import genIdenticon from "../../utils/genIdenticon";
 
 interface Props {
   user: IUser | null;
@@ -9,14 +8,13 @@ interface Props {
 }
 
 function UserSm({ user, isOwner }: Props): JSX.Element {
+  const iden = genIdenticon(user?.identicon?.hash, user?.identicon?.rgba);
+
   return (
     <S.UserSm isOwner={isOwner}>
       <div>
         <figure>
-          {/* <img
-            src={require(`../../assets/Avatars-memoji/png/Avatar-${user.avatarID}.png`)}
-            alt="User avartar"
-          /> */}
+          <img src={`data:image/png;base64, ${iden}`} alt="Identicon" />
         </figure>
       </div>
 

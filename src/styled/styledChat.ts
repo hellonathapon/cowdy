@@ -170,6 +170,7 @@ export const Message = styled.div<MessageProps>`
   margin-left: ${({ owner }) => (owner ? "auto" : 0)};
   margin-right: ${({ owner }) => (owner ? 0 : "auto")};
   max-width: 600px;
+  margin-bottom: 7px;
 
   section {
     display: inline-block;

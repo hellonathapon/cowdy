@@ -1,4 +1,4 @@
-import { useRef, useEffect, memo } from "react";
+import React, { useRef, useEffect } from "react";
 import * as S from "../styled";
 import { IMessage } from "../features/message/messageSlice";
 import Message from "./_chat/Message";
@@ -7,7 +7,6 @@ import { Socket } from "socket.io-client";
 import { HeadChat, Input } from "./_chat";
 import { closed } from "../features/mechanic/mechanicSlice";
 import { useDispatch, useSelector } from "react-redux";
-import useUser from "../hooks/useUser";
 import { RootState } from "../app/store";
 
 interface Props {
@@ -15,31 +14,34 @@ interface Props {
 }
 
 function Chat({ socket }: Props): JSX.Element {
-  const messages: IMessage[] = useSelector((state: RootState) => state.message);
-  const user = useSelector((state: RootState) => state.user);
-  // const isLastMessageMine = useUser(messages, user.clientID);
-  // console.log("message", messages);
+  console.log("DEBUG: Re-rendering Chat");
+  const messages = useSelector((state: RootState) => state.messages);
+
+  /**
+   * *************************************************************************************
+   * * simply scroll chat component to the vary bottom when the new message is broadcasted
+   * *************************************************************************************
+   */
 
   const el = useRef<null | HTMLDivElement>(null);
 
-  /**
-   * * simply scroll chat component to the vary bottom when the new message is broadcasted
-   */
-  const scrollToBottom = () => {
+  function scrollToBottom() {
     el.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  /**
-   * On mobile screen if user click chat panel then the sidebar should be closed.
-   */
-  const dispatch = useDispatch();
-  const handleCloseSidebar = () => {
-    dispatch(closed());
-  };
+  }
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  /**
+   * *************************************************************************************
+   * * On mobile screen if user click chat panel then the sidebar should be closed.
+   * *************************************************************************************
+   */
+  const dispatch = useDispatch();
+  function handleCloseSidebar() {
+    dispatch(closed());
+  }
 
   return (
     <S.Chat>
@@ -49,15 +51,18 @@ function Chat({ socket }: Props): JSX.Element {
           return item.type === "message" ? (
             <Message ref={el} message={item} key={i} />
           ) : (
-            <Notify text={item.text!} timeStamp={item.timeStamp} key={i} />
+            <Notify
+              ref={el}
+              text={item.text!}
+              timeStamp={item.timeStamp}
+              key={i}
+            />
           );
         })}
-        {/* <MemoizedMessage /> */}
       </S.ChatArea>
       <Input socket={socket} />
     </S.Chat>
   );
 }
 
-const MemoizedChat = memo(Chat);
-export default MemoizedChat;
+export default React.memo(Chat);
