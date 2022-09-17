@@ -49,13 +49,13 @@ table {
 	border-spacing: 0;
 }
 
-@font-face {
+/* @font-face {
 	font-family: "Mark OT";
 	src: url(${MarkOT}) format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
-/* @font-face {
+@font-face {
 	font-family: "SF-Pro";
 	src: url(${SFProBlack}) format('opentype');
 	font-weight: black;
@@ -78,7 +78,8 @@ table {
 
 html, body {
 	height: 100%;
-	font-family: "Mark OT", sans-serif;
+	/* font-family: "Mark OT", sans-serif; */
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 `;

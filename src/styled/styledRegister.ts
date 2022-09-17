@@ -84,7 +84,8 @@ export const RegForm = styled.form`
     font-size: 18px;
     border: none;
     border-bottom: 1px solid slateGray;
-    font-family: "Mark OT";
+    /* font-family: "Mark OT"; */
+    font-family: Arial, Helvetica, sans-serif;
 
     &:focus {
       outline: none;

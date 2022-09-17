@@ -31,7 +31,7 @@ const initialState: IUserState = {
 const AttemptRegisterUser = createAsyncThunk(
   "user/register",
   async (user: IUser) => {
-    const response = await axios.post("http://localhost:5000/register", user);
+    const response = await axios.post("/register", user);
     return response.data;
   }
 );
@@ -49,7 +49,6 @@ const userSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(AttemptRegisterUser.fulfilled, (state, action) => {
-      console.log("on fulfilled", action.payload);
       state.data = action.payload;
       state.loading = false;
     });

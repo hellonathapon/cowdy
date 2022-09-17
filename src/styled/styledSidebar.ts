@@ -238,7 +238,6 @@ export const NoActiveUserPlaceholder = styled.div`
   align-items: center;
   p {
     font-size: 10px;
-    font-weight: bold;
     margin-top: 1rem;
   }
 `;

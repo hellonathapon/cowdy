@@ -17,8 +17,9 @@ export const HeadChatTitleWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   figure {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
     img {
       width: 100%;
     }
@@ -110,6 +111,9 @@ export const Input = styled.div`
       /* background: #F9F9F9; */
       border-radius: 14px;
       padding-left: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       input {
         width: 100%;
@@ -118,6 +122,11 @@ export const Input = styled.div`
         outline: none;
         font-size: 18px;
         background: transparent;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
       }
     }
     div:nth-child(2) {
@@ -198,6 +207,7 @@ export const Message = styled.div<MessageProps>`
       border: ${({ theme }) => `3px ${theme.borders.border1}`};
       border-radius: 50%;
       margin-right: 10px;
+      overflow: hidden;
 
       img {
         width: 100%;
@@ -208,7 +218,7 @@ export const Message = styled.div<MessageProps>`
       max-width: 500px;
       display: flex;
       flex-direction: column;
-      align-items: ${({ owner }) => (owner ? "flex-end" : "flex-end")};
+      align-items: ${({ owner }) => (owner ? "flex-end" : "flex-start")};
       overflow-wrap: break-word;
       word-wrap: break-word;
       word-wrap: break-all;
@@ -226,6 +236,7 @@ export const Message = styled.div<MessageProps>`
         margin-top: 5px;
         color: #979292;
         margin-right: ${({ owner }) => (owner ? "auto" : 0)};
+        margin-left: ${({ owner }) => (owner ? 0 : "auto")};
       }
       p {
         background: ${({ owner }) => (owner ? "#0F89E3" : "#F3F3F3")};

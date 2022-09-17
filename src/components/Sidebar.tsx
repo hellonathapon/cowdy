@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 
 function Sidebar(): JSX.Element {
-  console.log("Re-rendering SIDEBAR");
   const user = useSelector((state: RootState) => state.user);
   const people = useSelector((state: RootState) => state.people.people);
 

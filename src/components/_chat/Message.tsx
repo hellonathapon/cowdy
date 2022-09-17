@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { IMessage } from "../../features/message/messageSlice";
 import * as S from "../../styled";
 import { formatAMPM } from "../../utils/formatDateStr";
@@ -12,7 +12,7 @@ const Message = (
   { message }: Props,
   ref: React.Ref<HTMLDivElement> | null
 ): JSX.Element => {
-  console.log("DEBUG: Re-rendering MESSAGE", message);
+  // console.log("DEBUG: Re-rendering MESSAGE", message);
 
   function handleGenIdenticon(
     hash: string | undefined,

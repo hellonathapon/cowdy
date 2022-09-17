@@ -17,7 +17,6 @@ import CryptoJS from "crypto-js";
 import Identicon from "../components/Identicon";
 
 function Register(): JSX.Element {
-  console.log("Re-rendering Register");
   /**
    * * Identicon figure depends on input value *username, So component states need to be declared separately
    * * to avoid unnecessary re-rendering.

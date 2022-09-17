@@ -9,7 +9,6 @@ export default function (
   hash: string | undefined,
   rgbaCol: IdenticonOptions["foreground"]
 ): string | null {
-  console.log("Re-rendering Identicon gen");
   if (hash === undefined || rgbaCol === undefined) {
     console.log("null hash");
     return null;

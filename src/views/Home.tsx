@@ -29,15 +29,18 @@ function Home() {
     /**
      * * SENDING INITIAL HANDSHAKE DATA TO THE SERVER
      */
-    const newSocket: Socket = io("http://localhost:5000", {
-      query: {
-        clientID: user.data?.clientID,
-        username: user.data?.username,
-        role: user.data?.role,
-        identiconHash: user.data?.identicon?.hash, // extract obj and passing as a plain string
-        identiconRgba: user.data?.identicon?.rgba, // due to nested obj couldn't be passed to query string
-      },
-    });
+    const newSocket: Socket = io(
+      "https://glacial-savannah-45468.herokuapp.com",
+      {
+        query: {
+          clientID: user.data?.clientID,
+          username: user.data?.username,
+          role: user.data?.role,
+          identiconHash: user.data?.identicon?.hash, // extract obj and passing as a plain string
+          identiconRgba: user.data?.identicon?.rgba, // due to nested obj couldn't be passed to query string
+        },
+      }
+    );
 
     setSocket(newSocket);
 

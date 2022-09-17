@@ -14,7 +14,6 @@ interface Props {
 }
 
 function Chat({ socket }: Props): JSX.Element {
-  console.log("DEBUG: Re-rendering Chat");
   const messages = useSelector((state: RootState) => state.messages);
 
   /**

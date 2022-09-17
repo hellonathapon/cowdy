@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../user/userSlice";
 
+// interface People extends IUser {
+//   isActive: boolean,
+//   timeStamp: Date
+// }
 interface IPeopleState {
   people: Array<IUser>;
 }

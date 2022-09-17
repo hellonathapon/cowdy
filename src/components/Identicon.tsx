@@ -26,7 +26,6 @@ function Identicon({ identicon, setIdenticonColor }: Props) {
   const handleSetColor = (col: IColor) => {
     setIdenticonColor(col.rgbaVal);
   };
-  console.log("Re-rendering Identicon");
   return (
     <S.IdenticonCtn>
       <S.IdenticonIMGWrap>

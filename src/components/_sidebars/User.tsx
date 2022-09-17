@@ -8,7 +8,6 @@ interface Props {
 }
 
 function User({ user, isOwner }: Props): JSX.Element {
-  console.log("Re-rendering USER");
   const iden = genIdenticon(user?.identicon?.hash, user?.identicon?.rgba);
 
   return (
